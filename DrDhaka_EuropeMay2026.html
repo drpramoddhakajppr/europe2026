@@ -206,15 +206,15 @@
     </div>
     <div class="header-meta-item">
       <span class="header-meta-label">Returns</span>
-      <span class="header-meta-value">15 Jul 2026</span>
+      <span class="header-meta-value">17 Jun 2026</span>
     </div>
     <div class="header-meta-item">
       <span class="header-meta-label">Duration</span>
-      <span class="header-meta-value">57 Days</span>
+      <span class="header-meta-value">28 Days</span>
     </div>
     <div class="header-meta-item">
       <span class="header-meta-label">Countries</span>
-      <span class="header-meta-value">CH · AT · IT · DE · BE · UK</span>
+      <span class="header-meta-value">CH · AT · IT · DE · BE </span>
     </div>
   </div>
   <div class="journey-strip">
@@ -229,8 +229,6 @@
     <div class="journey-stop"><span class="journey-flag">🇩🇪</span><span class="journey-label">Germany</span></div>
     <span class="journey-arrow">›</span>
     <div class="journey-stop"><span class="journey-flag">🇧🇪</span><span class="journey-label">Brussels</span></div>
-    <span class="journey-arrow">›</span>
-    <div class="journey-stop"><span class="journey-flag">🇬🇧</span><span class="journey-label">UK</span></div>
     <span class="journey-arrow">›</span>
     <div class="journey-stop"><span class="journey-flag">🇮🇳</span><span class="journey-label">Delhi</span></div>
   </div>
@@ -328,40 +326,41 @@ const EVENTS = [
     ]
   },
 
-  {
-    id:'flight-lhr-del',
+{
+    id:'flight-zrh-del',
     type:'flight',
-    sortDate:'2026-07-15T07:25:00',
-    eventDate:'2026-07-15',
-    flags:'🇬🇧 ✈️ 🇮🇳',
-    cardTitle:'London → Delhi',
-    cardSubtitle:'LH 2485 + LH 762 · via Munich · 9 h 25 m',
-    timeRange:'07:25 → 23:55',
-    ref:'PNR: F8FTIO',
+    sortDate:'2026-06-16T15:10:00',
+    eventDate:'2026-06-16',
+    flags:'🇨🇭 ✈️ 🇮🇳',
+    cardTitle:'Zurich→Delhi',
+    cardSubtitle:'TK 1914 + Turkish Airlines · via Istanbul · 1 h 05 m',
+    timeRange:'15:10 → 04:10',
+    ref:'PNR: 9A7PCI',
     isPlaceholder:false,
     details:{
-      from:'London Heathrow (LHR) · Terminal 2',
-      to:'Indira Gandhi Intl (DEL) · Terminal 3',
-      departure:'15 Jul 2026 · 07:25 BST',
-      arrival:'15 Jul 2026 · 23:55 IST',
-      duration:'9 h 25 m · ~6,700 km',
-      operator:'Lufthansa LH 2485 + LH 762',
-      bookingRef:'F8FTIO',
-      platform:'MakeMyTrip — Booking ID: NN7AL75U86493651976',
-      seatInfo:'Pramod: e-tickets 48697912555 / 48697912566\nShivani: e-tickets 48697912570 / 48697912581',
+      from:'Zurich International Airport (ZRH)',
+      to:'Indira Gandhi Intl (DEL) · Terminal 3, New Delhi',
+      departure:'16 June 2026 · 15:10 CET',
+      arrival:'17 June 2026 · 04:50 IST',
+      duration:'9 h 20 m · ~6,300 km',
+      operator:'Turkish Airliness)',
+      bookingRef:'RQGRUQ',
+      platform:'TOUR4INDIA',
+      seatInfo:'Pramod - Shivani: e-tickets ',
       baggage:'Cabin 8 kg (1 PC)/adult · Check-in 23 kg (1 PC)/adult',
-      fare:'Economy Basic · Same PNR as outbound',
-      visaBoundary:'🛂 Departing UK',
-      notes:'Same booking as inbound flight. PNR F8FTIO.',
-      stops:[{city:'Munich (MUC)',terminal:'Terminal 2 (FJS)',arrives:'10:20',departs:'12:55',layover:'2 h 35 m'}],
+      fare:'Economy Basic · Total paid: ₹1,97,726',
+      visaBoundary:'🛂 Entering Schengen Zone',
+      notes:'Booked via TOUR4INDIA on 18 May 2026.',
+      stops:[{city:'Istanbul (IST)',terminal:'Terminal 2 (IST)',arrives:'19:10',departs:'20:15',layover:'1 h 5 m'}],
     },
     links:[
-      {label:'📍 Heathrow T2',url:'https://maps.google.com/?q=London+Heathrow+Airport+Terminal+2'},
-      {label:'🌐 Heathrow',url:'https://www.heathrow.com'},
-      {label:'📍 Delhi T3',url:'https://maps.google.com/?q=Indira+Gandhi+International+Airport+Terminal+3+Delhi'},
+      {label:'📍 Zurich Airport',url:'https://maps.google.com/?q=Zurich+Airport+ZRH'},
+      {label:'🌐 ZRH Airport',url:'https://www.zurich-airport.com'},
+	  {label:'📍 Delhi T3 on Maps',url:'https://maps.google.com/?q=Indira+Gandhi+International+Airport+Terminal+3+Delhi'},
       {label:'🌐 Delhi Airport',url:'https://www.newdelhiairport.in'},
     ]
   },
+
 
   // ══ TRAINS ═══════════════════════════════════════════════════════
 
@@ -786,39 +785,6 @@ const EVENTS = [
     ]
   },
 
-  {
-    id:'train-brussels-london',
-    type:'train',
-    sortDate:'2026-06-15T12:56:00',
-    eventDate:'2026-06-15',
-    flags:'🇧🇪 → 🇬🇧',
-    cardTitle:'Brussels → London St Pancras',
-    cardSubtitle:'Eurostar Plus 9133 · Coach 3 · Seats 77/78 · Channel Tunnel',
-    timeRange:'12:56 → 13:57',
-    ref:'PNR: JG6P4K',
-    isPlaceholder:false,
-    details:{
-      from:'Bruxelles-Midi / Zuid (Eurostar Departures)',
-      to:'London St Pancras International',
-      departure:'15 Jun 2026 · 12:56 (be at Eurostar Departures by 12:06)',
-      arrival:'15 Jun 2026 · 13:57 BST (1 h 01 m local)',
-      duration:'~2 h 20 m actual · ~370 km',
-      operator:'Eurostar Plus — Train 9133, CIV 0019',
-      bookingRef:'PNR: JG6P4K',
-      platform:'Eurostar',
-      seatInfo:'Coach 3 · Seat 77 (Pramod, Ticket 218838192) · Seat 78 (Shivani, Ticket 757657791) · Eurostar Plus class',
-      fare:'Rail Pass 1st class',
-      visaBoundary:'🛂 Entering UK · Schengen Exit via Channel Tunnel · Passport required',
-      notes:'Arrive at Eurostar Departures at Bruxelles-Midi by 12:06 local time. Ticket gates close 30 min before departure. UK–EU border checks. Passport required. Ticket issued 16/05/26.',
-      stops:[],
-    },
-    links:[
-      {label:'📍 Brussels Midi',url:'https://maps.google.com/?q=Brussels+Midi+Zuid+Station'},
-      {label:'🌐 Belgian Rail',url:'https://www.belgiantrain.be'},
-      {label:'📍 St Pancras International',url:'https://maps.google.com/?q=London+St+Pancras+International+Station'},
-      {label:'🌐 St Pancras',url:'https://www.stpancras.com'},
-    ]
-  },
 
   // ══ HOTELS ═══════════════════════════════════════════════════════
 
@@ -1069,36 +1035,6 @@ const EVENTS = [
     links:[
       {label:'📍 Düsseldorf City',url:'https://maps.google.com/?q=Holiday+Inn+Düsseldorf+City+Centre'},
       {label:'🌐 Holiday Inn DUS',url:'https://www.ihg.com/holidayinn/hotels/us/en/dusseldorf/duscc/hoteldetail'},
-    ]
-  },
-
-  {
-    id:'hotel-london',
-    type:'hotel',
-    sortDate:'2026-06-15T14:00:00',
-    eventDate:'2026-06-15',
-    checkIn:'2026-06-15',
-    checkOut:'2026-07-15',
-    flags:'🇬🇧',
-    cardTitle:'London Base Hotel',
-    cardSubtitle:'Check-in 15 Jun → Check-out 15 Jul · 30 nights',
-    ref:'Booking: TBD',
-    isPlaceholder:true,
-    details:{
-      address:'London, United Kingdom',
-      stayType:'Hotel',
-      nights:'30 nights · 2 adults',
-      room:'TBD',
-      bookingRef:'Placeholder — update with real details',
-      platform:'—',
-      phone:'—',
-      checkInTime:'—',
-      checkOutTime:'—',
-      visaZone:'UK',
-      notes:'Placeholder — update with real booking details. Arriving 15 Jun (Eurostar 9133, London St Pancras 13:57). Departing 15 Jul (LH 2485 from LHR 07:25).',
-    },
-    links:[
-      {label:'📍 London',url:'https://maps.google.com/?q=London+United+Kingdom'},
     ]
   },
 
@@ -1427,7 +1363,7 @@ function toggleSort() {
 // ─────────────────────────────────────────────────────────────────
 function updateProgress() {
   const start = new Date('2026-05-19');
-  const end   = new Date('2026-07-15');
+  const end   = new Date('2026-06-17');
   const now   = new Date();
   const total = end - start;
   const elapsed = now - start;
@@ -1452,7 +1388,7 @@ function updateProgress() {
 function smartDefaultTab() {
   const now = today0();
   const tripStart = parseDate('2026-05-19');
-  const tripEnd = parseDate('2026-07-15');
+  const tripEnd = parseDate('2026-06-17');
   if (now >= tripStart && now <= tripEnd) {
     setTab('today');
   } else if (now < tripStart) {
