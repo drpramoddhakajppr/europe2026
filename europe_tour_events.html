@@ -1,0 +1,2517 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f8f5ef">
+  <title>HumRaahi Europe Tour Events</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #1d2636;
+      --muted: #667085;
+      --soft: #f8f5ef;
+      --paper: rgba(255, 255, 255, 0.86);
+      --line: rgba(29, 38, 54, 0.12);
+      --shadow: 0 18px 45px rgba(32, 40, 56, 0.12);
+      --shadow-soft: 0 10px 24px rgba(32, 40, 56, 0.08);
+      --accent: #9a6a1f;
+      --flight: #eaf2ff;
+      --flight-strong: #2f66b3;
+      --train: #eaf7ed;
+      --train-strong: #25764b;
+      --hotel: #fff0f3;
+      --hotel-strong: #b74763;
+      --misc: #f3ecff;
+      --misc-strong: #7052ba;
+      --chip: rgba(255, 255, 255, 0.72);
+      --focus: 0 0 0 4px rgba(47, 102, 179, 0.18);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Helvetica, Arial, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(255, 223, 174, 0.7), transparent 34rem),
+        radial-gradient(circle at 80% 8rem, rgba(180, 214, 255, 0.56), transparent 30rem),
+        linear-gradient(135deg, #fbf7ef 0%, #f5f8ff 50%, #fff8fb 100%);
+    }
+
+    button, input, select { font: inherit; }
+
+    a { color: inherit; }
+
+    .shell {
+      width: min(1120px, 100%);
+      margin: 0 auto;
+      padding: max(18px, env(safe-area-inset-top)) clamp(14px, 3vw, 30px) max(30px, env(safe-area-inset-bottom));
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(154, 106, 31, 0.14);
+      border-radius: 30px;
+      padding: clamp(24px, 5vw, 52px);
+      background:
+        linear-gradient(120deg, rgba(255, 255, 255, 0.94), rgba(255, 255, 255, 0.72)),
+        linear-gradient(135deg, rgba(255, 226, 180, 0.52), rgba(224, 239, 255, 0.58));
+      box-shadow: var(--shadow);
+    }
+
+    .hero:before,
+    .hero:after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      pointer-events: none;
+    }
+
+    .hero:before {
+      width: 280px;
+      height: 280px;
+      right: -80px;
+      top: -110px;
+      background: rgba(255, 214, 142, 0.38);
+    }
+
+    .hero:after {
+      width: 170px;
+      height: 170px;
+      right: 12%;
+      bottom: -80px;
+      background: rgba(181, 210, 255, 0.45);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 12px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(154, 106, 31, 0.1);
+      color: #815816;
+      font-size: 0.78rem;
+      font-weight: 750;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      position: relative;
+      margin: 0;
+      max-width: 780px;
+      font-size: clamp(2.05rem, 6.2vw, 4.85rem);
+      line-height: 0.96;
+      letter-spacing: -0.065em;
+    }
+
+    .hero-subtitle {
+      position: relative;
+      max-width: 820px;
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: clamp(1rem, 2.2vw, 1.22rem);
+      line-height: 1.65;
+    }
+
+    .hero-meta {
+      position: relative;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .meta-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 13px;
+      border: 1px solid rgba(29, 38, 54, 0.1);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.66);
+      color: #344054;
+      font-size: 0.92rem;
+      font-weight: 700;
+      backdrop-filter: blur(12px);
+    }
+
+    .toolbar {
+      position: sticky;
+      z-index: 5;
+      top: 0;
+      margin: 18px 0;
+      padding: 12px;
+      border: 1px solid rgba(29, 38, 54, 0.1);
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(18px);
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .tab {
+      min-height: 44px;
+      border: 0;
+      border-radius: 16px;
+      background: rgba(29, 38, 54, 0.055);
+      color: #344054;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.18s ease, background 0.18s ease, color 0.18s ease;
+    }
+
+    .tab[aria-selected="true"] {
+      background: #1d2636;
+      color: #fff;
+    }
+
+    .tab:active, .icon-button:active { transform: scale(0.98); }
+    .tab:focus-visible, .icon-button:focus-visible, .event-card:focus-within, input:focus-visible, select:focus-visible { outline: none; box-shadow: var(--focus); }
+
+    .controls {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(150px, 0.35fr) minmax(160px, 0.35fr);
+      gap: 10px;
+    }
+
+    .field {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      min-height: 48px;
+      padding: 0 13px;
+      border: 1px solid rgba(29, 38, 54, 0.1);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.84);
+    }
+
+    .field span { color: #98a2b3; }
+
+    input, select {
+      width: 100%;
+      min-width: 0;
+      border: 0;
+      outline: 0;
+      color: var(--ink);
+      background: transparent;
+      font-size: 0.96rem;
+    }
+
+    select { cursor: pointer; }
+
+    .status-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 16px 2px 12px;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .quick-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    .legend-chip, .kind-chip, .tiny-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 999px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .legend-chip {
+      padding: 7px 10px;
+      border: 1px solid rgba(29, 38, 54, 0.08);
+      background: rgba(255, 255, 255, 0.7);
+      font-size: 0.82rem;
+    }
+
+    .event-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .event-card {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(29, 38, 54, 0.1);
+      border-radius: 24px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .event-card:before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 7px;
+      background: currentColor;
+      opacity: 0.65;
+    }
+
+    .event-card.flight { color: var(--flight-strong); background: linear-gradient(135deg, var(--flight), rgba(255,255,255,0.9)); }
+    .event-card.train { color: var(--train-strong); background: linear-gradient(135deg, var(--train), rgba(255,255,255,0.9)); }
+    .event-card.hotel { color: var(--hotel-strong); background: linear-gradient(135deg, var(--hotel), rgba(255,255,255,0.9)); }
+    .event-card.misc { color: var(--misc-strong); background: linear-gradient(135deg, var(--misc), rgba(255,255,255,0.9)); }
+
+    .card-button {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 14px;
+      width: 100%;
+      padding: clamp(14px, 3vw, 20px) clamp(14px, 3vw, 22px);
+      border: 0;
+      background: transparent;
+      color: inherit;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .date-tile {
+      align-self: start;
+      width: 64px;
+      min-height: 72px;
+      border: 1px solid rgba(255, 255, 255, 0.86);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.74);
+      box-shadow: inset 0 0 0 1px rgba(29, 38, 54, 0.04);
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .date-tile .month {
+      display: block;
+      padding: 5px 4px;
+      background: rgba(29, 38, 54, 0.08);
+      font-size: 0.72rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .date-tile .day {
+      display: block;
+      padding-top: 7px;
+      color: var(--ink);
+      font-size: 1.55rem;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .date-tile .weekday {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .card-main { min-width: 0; }
+
+    .top-line {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 7px;
+    }
+
+    .kind-chip {
+      padding: 5px 9px;
+      background: rgba(255, 255, 255, 0.62);
+      color: currentColor;
+      font-size: 0.74rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .tiny-chip {
+      padding: 5px 9px;
+      background: rgba(29, 38, 54, 0.06);
+      color: #475467;
+      font-size: 0.76rem;
+    }
+
+    .card-title {
+      margin: 0;
+      color: var(--ink);
+      font-size: clamp(1.05rem, 2.5vw, 1.36rem);
+      line-height: 1.25;
+      letter-spacing: -0.025em;
+    }
+
+    .subtitle {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 14px;
+      margin-top: 8px;
+      color: #475467;
+      font-size: 0.92rem;
+      line-height: 1.4;
+    }
+
+    .subtitle span { display: inline-flex; align-items: center; gap: 5px; }
+
+    .card-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: -4px clamp(14px, 3vw, 22px) 16px calc(clamp(14px, 3vw, 22px) + 78px);
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 34px;
+      padding: 7px 11px;
+      border: 1px solid rgba(29, 38, 54, 0.12);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.76);
+      color: var(--ink);
+      font-size: 0.82rem;
+      font-weight: 850;
+      text-decoration: none;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.42);
+      transition: transform 0.18s ease, background 0.18s ease;
+    }
+
+    .card-link:hover { background: #fff; transform: translateY(-1px); }
+    .card-link:focus-visible { outline: none; box-shadow: var(--focus); }
+
+    .chevron {
+      align-self: center;
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.64);
+      color: var(--ink);
+      transition: transform 0.2s ease;
+    }
+
+    .event-card.open .chevron { transform: rotate(180deg); }
+
+    .details {
+      display: none;
+      margin: 0 14px 14px 21px;
+      padding: 0 0 16px 76px;
+      color: #344054;
+    }
+
+    .event-card.open .details { display: block; animation: reveal 0.2s ease-out; }
+
+    @keyframes reveal { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+
+    .details-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      padding-top: 2px;
+    }
+
+    .detail-box {
+      min-width: 0;
+      padding: 12px;
+      border: 1px solid rgba(29, 38, 54, 0.08);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.68);
+    }
+
+    .detail-label {
+      display: block;
+      margin-bottom: 5px;
+      color: #667085;
+      font-size: 0.73rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .detail-value {
+      color: var(--ink);
+      font-size: 0.94rem;
+      line-height: 1.45;
+      overflow-wrap: anywhere;
+    }
+
+    .detail-value a {
+      color: currentColor;
+      font-weight: 800;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(29, 38, 54, 0.22);
+    }
+
+    .wide { grid-column: 1 / -1; }
+
+    .empty {
+      display: none;
+      padding: 34px 22px;
+      border: 1px dashed rgba(29, 38, 54, 0.18);
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.7);
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .empty strong { display: block; margin-bottom: 5px; color: var(--ink); font-size: 1.1rem; }
+
+    .fab-row {
+      position: fixed;
+      right: max(16px, env(safe-area-inset-right));
+      bottom: max(16px, env(safe-area-inset-bottom));
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      z-index: 10;
+    }
+
+    .icon-button {
+      width: 48px;
+      height: 48px;
+      border: 0;
+      border-radius: 999px;
+      background: #1d2636;
+      color: #fff;
+      box-shadow: var(--shadow-soft);
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+
+    @media (max-width: 760px) {
+      .shell { padding-inline: 12px; }
+      .hero { border-radius: 24px; padding: 24px 18px; }
+      .toolbar { top: 0; border-radius: 20px; }
+      .controls { grid-template-columns: 1fr; }
+      .tabs { gap: 6px; }
+      .tab { min-height: 42px; font-size: 0.9rem; }
+      .status-row { align-items: flex-start; flex-direction: column; }
+      .quick-legend { justify-content: flex-start; }
+      .card-button { grid-template-columns: minmax(0, 1fr) auto; gap: 10px; }
+      .date-tile { display: none; }
+      .card-links { margin: -2px 14px 14px; }
+      .details { margin-left: 14px; padding-left: 0; }
+      .details-grid { grid-template-columns: 1fr; }
+      .subtitle { font-size: 0.88rem; }
+      .fab-row { display: none; }
+    }
+
+    @media (min-width: 761px) and (max-width: 1024px) {
+      .controls { grid-template-columns: 1fr 1fr; }
+      .controls .field:first-child { grid-column: 1 / -1; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *:before, *:after { scroll-behavior: auto !important; animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="hero" aria-labelledby="page-title">
+      <p class="eyebrow">✦ HumRaahi Europe Tour</p>
+      <h1 id="page-title">Grand European Journey 2026</h1>
+      <p class="hero-subtitle" id="tripSubtitle">Delhi · Zurich · Bern · Geneva · Sachseln · Innsbruck · Seefeld · Bolzano · Gardone Riviera · Prague · Frankfurt · Düsseldorf · London</p>
+      <div class="hero-meta" id="heroMeta" aria-label="Trip summary"></div>
+    </section>
+
+    <section class="toolbar" aria-label="Event controls">
+      <div class="tabs" role="tablist" aria-label="Date tabs">
+        <button class="tab" type="button" data-tab="today" role="tab" aria-selected="false">Today</button>
+        <button class="tab" type="button" data-tab="upcoming" role="tab" aria-selected="true">Upcoming</button>
+        <button class="tab" type="button" data-tab="all" role="tab" aria-selected="false">All</button>
+      </div>
+      <div class="controls">
+        <label class="field" aria-label="Search events">
+          <span>⌕</span>
+          <input id="searchInput" type="search" inputmode="search" placeholder="Search city, hotel, booking ref, train, flight…" autocomplete="off">
+        </label>
+        <label class="field" aria-label="Filter by event type">
+          <span>☰</span>
+          <select id="typeFilter">
+            <option value="all">All event types</option>
+            <option value="flight">Flights only</option>
+            <option value="train">Trains only</option>
+            <option value="hotel">Hotels only</option>
+            <option value="misc">Misc only</option>
+          </select>
+        </label>
+        <label class="field" aria-label="Sort events">
+          <span>⇅</span>
+          <select id="sortSelect">
+            <option value="chronology">Chronology</option>
+            <option value="type">Event type</option>
+            <option value="reverse">Latest first</option>
+          </select>
+        </label>
+      </div>
+    </section>
+
+    <div class="status-row">
+      <div id="resultCount" aria-live="polite">Preparing itinerary…</div>
+      <div class="quick-legend" aria-label="Color legend">
+        <span class="legend-chip">✈️ Flight</span>
+        <span class="legend-chip">🚆 Train</span>
+        <span class="legend-chip">🏨 Hotel</span>
+        <span class="legend-chip">✨ Misc</span>
+      </div>
+    </div>
+
+    <section id="eventList" class="event-list" aria-label="Tour events"></section>
+    <section id="emptyState" class="empty" aria-live="polite">
+      <strong>No matching events</strong>
+      Try clearing the search, switching tabs, or choosing another event type.
+    </section>
+  </main>
+
+  <div class="fab-row" aria-label="Quick actions">
+    <button class="icon-button" type="button" id="expandAll" title="Expand all cards" aria-label="Expand all cards">＋</button>
+    <button class="icon-button" type="button" id="collapseAll" title="Collapse all cards" aria-label="Collapse all cards">−</button>
+    <button class="icon-button" type="button" id="toTop" title="Back to top" aria-label="Back to top">↑</button>
+  </div>
+
+  <script id="humraahi-data" type="application/json">
+{
+  "_comment": "HumRaahi full-data export/import schema v1. Fill real values and import via Settings → Full Database → Import.",
+  "schema_version": "1",
+  "exported_at": "2026-05-18T00:00:00Z",
+  "app": "HumRaahi",
+  "family_title": "Dr. Dhaka Family Trip Planner",
+  "travelers": [
+    {
+      "id": "7b2e5f3a-0000-0000-0000-000000000002",
+      "first_name": "Pramod",
+      "last_name": "Dhaka",
+      "initials": "PD",
+      "nationality": "Indian",
+      "date_of_birth": "1968-12-12",
+      "gender": "M",
+      "emergency_contact": {
+        "name": "Shivani Dhaka",
+        "phone": "+91-XXXXXXXXXX",
+        "relation": "Spouse"
+      },
+      "insurance": {
+        "provider": "",
+        "policy_no": "",
+        "valid_until": null
+      },
+      "frequent_flyer": [
+        {
+          "airline": "Air India",
+          "number": ""
+        }
+      ],
+      "dietary": "",
+      "medical": "",
+      "notes": "",
+      "documents": [
+        {
+          "id": "doc-pramod-passport-01",
+          "type": "Passport",
+          "number": "ABC1234",
+          "issuing_country": "India",
+          "issued_date": "2020-12-12",
+          "expiry_date": "2030-12-12",
+          "notes": ""
+        }
+      ],
+      "history": [
+        {
+          "id": "hist-pramod-ch-2026",
+          "package_id": "7b2e5f3a-0000-0000-0000-000000000001",
+          "country": "Switzerland",
+          "flag": "🇨🇭",
+          "from": "2026-05-19",
+          "to": "2026-05-27",
+          "cities": [
+            "Zurich",
+            "Bern",
+            "Geneva",
+            "Sachseln"
+          ],
+          "is_manual": true,
+          "notes": ""
+        },
+        {
+          "id": "hist-pramod-at-2026",
+          "package_id": "7b2e5f3a-0000-0000-0000-000000000001",
+          "country": "Austria",
+          "flag": "🇦🇹",
+          "from": "2026-05-27",
+          "to": "2026-06-01",
+          "cities": [
+            "Innsbruck",
+            "Seefeld in Tirol"
+          ],
+          "is_manual": true,
+          "notes": ""
+        },
+        {
+          "id": "hist-pramod-it-2026",
+          "package_id": "7b2e5f3a-0000-0000-0000-000000000001",
+          "country": "Italy",
+          "flag": "🇮🇹",
+          "from": "2026-06-01",
+          "to": "2026-06-09",
+          "cities": [
+            "Bolzano",
+            "Gardone Riviera",
+            "Milan"
+          ],
+          "is_manual": true,
+          "notes": ""
+        },
+        {
+          "id": "hist-pramod-de-2026",
+          "package_id": "7b2e5f3a-0000-0000-0000-000000000001",
+          "country": "Germany",
+          "flag": "🇩🇪",
+          "from": "2026-06-09",
+          "to": "2026-06-15",
+          "cities": [
+            "Düsseldorf"
+          ],
+          "is_manual": true,
+          "notes": ""
+        },
+        {
+          "id": "hist-pramod-be-2026",
+          "package_id": "7b2e5f3a-0000-0000-0000-000000000001",
+          "country": "Belgium",
+          "flag": "🇧🇪",
+          "from": "2026-06-15",
+          "to": "2026-06-15",
+          "cities": [
+            "Brussels"
+          ],
+          "is_manual": true,
+          "notes": "Transit only — Eurostar change at Bruxelles-Midi"
+        },
+        {
+          "id": "hist-pramod-uk-2026",
+          "package_id": "7b2e5f3a-0000-0000-0000-000000000001",
+          "country": "United Kingdom",
+          "flag": "🇬🇧",
+          "from": "2026-06-15",
+          "to": "2026-07-15",
+          "cities": [
+            "London"
+          ],
+          "is_manual": true,
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "id": "7b2e5f3a-0000-0000-0000-000000000003",
+      "first_name": "Shivani",
+      "last_name": "Dhaka",
+      "initials": "SD",
+      "nationality": "Indian",
+      "date_of_birth": "1967-11-27",
+      "gender": "F",
+      "emergency_contact": {
+        "name": "Pramod Dhaka",
+        "phone": "+91-XXXXXXXXXX",
+        "relation": "Spouse"
+      },
+      "insurance": {
+        "provider": "",
+        "policy_no": "",
+        "valid_until": null
+      },
+      "frequent_flyer": [],
+      "dietary": "",
+      "medical": "",
+      "notes": "",
+      "documents": [
+        {
+          "id": "doc-shivani-passport-01",
+          "type": "Passport",
+          "number": "BBC32133",
+          "issuing_country": "India",
+          "issued_date": "2020-11-27",
+          "expiry_date": "2030-11-27",
+          "notes": ""
+        }
+      ],
+      "history": [
+        {
+          "id": "hist-shivani-ch-2026",
+          "package_id": "7b2e5f3a-0000-0000-0000-000000000001",
+          "country": "Switzerland",
+          "flag": "🇨🇭",
+          "from": "2026-05-19",
+          "to": "2026-05-27",
+          "cities": [
+            "Zurich",
+            "Bern",
+            "Geneva",
+            "Sachseln"
+          ],
+          "is_manual": true,
+          "notes": ""
+        },
+        {
+          "id": "hist-shivani-at-2026",
+          "package_id": "7b2e5f3a-0000-0000-0000-000000000001",
+          "country": "Austria",
+          "flag": "🇦🇹",
+          "from": "2026-05-27",
+          "to": "2026-06-01",
+          "cities": [
+            "Innsbruck",
+            "Seefeld in Tirol"
+          ],
+          "is_manual": true,
+          "notes": ""
+        },
+        {
+          "id": "hist-shivani-it-2026",
+          "package_id": "7b2e5f3a-0000-0000-0000-000000000001",
+          "country": "Italy",
+          "flag": "🇮🇹",
+          "from": "2026-06-01",
+          "to": "2026-06-09",
+          "cities": [
+            "Bolzano",
+            "Gardone Riviera",
+            "Milan"
+          ],
+          "is_manual": true,
+          "notes": ""
+        },
+        {
+          "id": "hist-shivani-de-2026",
+          "package_id": "7b2e5f3a-0000-0000-0000-000000000001",
+          "country": "Germany",
+          "flag": "🇩🇪",
+          "from": "2026-06-09",
+          "to": "2026-06-15",
+          "cities": [
+            "Düsseldorf"
+          ],
+          "is_manual": true,
+          "notes": ""
+        },
+        {
+          "id": "hist-shivani-be-2026",
+          "package_id": "7b2e5f3a-0000-0000-0000-000000000001",
+          "country": "Belgium",
+          "flag": "🇧🇪",
+          "from": "2026-06-15",
+          "to": "2026-06-15",
+          "cities": [
+            "Brussels"
+          ],
+          "is_manual": true,
+          "notes": "Transit only — Eurostar change at Bruxelles-Midi"
+        },
+        {
+          "id": "hist-shivani-uk-2026",
+          "package_id": "7b2e5f3a-0000-0000-0000-000000000001",
+          "country": "United Kingdom",
+          "flag": "🇬🇧",
+          "from": "2026-06-15",
+          "to": "2026-07-15",
+          "cities": [
+            "London"
+          ],
+          "is_manual": true,
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "id": "7b2e5f3a-0000-0000-0000-000000000004",
+      "first_name": "Prithvi",
+      "last_name": "Dhaka",
+      "initials": "PRD",
+      "nationality": "Indian",
+      "date_of_birth": "2000-06-01",
+      "gender": "M",
+      "emergency_contact": {
+        "name": "Pramod Dhaka",
+        "phone": "+91-XXXXXXXXXX",
+        "relation": "Father"
+      },
+      "insurance": {
+        "provider": "",
+        "policy_no": "",
+        "valid_until": null
+      },
+      "frequent_flyer": [],
+      "dietary": "",
+      "medical": "",
+      "notes": "Not traveling on this package — separate booking if applicable.",
+      "documents": [
+        {
+          "id": "doc-prithvi-passport-01",
+          "type": "Passport",
+          "number": "CBC1121",
+          "issuing_country": "India",
+          "issued_date": "2020-06-01",
+          "expiry_date": "2030-06-01",
+          "notes": ""
+        }
+      ],
+      "history": []
+    }
+  ],
+  "packages": [
+    {
+      "id": "7b2e5f3a-0000-0000-0000-000000000001",
+      "name": "Grand European Journey 2026",
+      "subtitle": "Delhi · Zurich · Bern · Geneva · Sachseln · Innsbruck · Seefeld · Bolzano · Gardone Riviera · Prague · Frankfurt · Düsseldorf · London",
+      "start_date": "2026-05-19",
+      "end_date": "2026-07-15",
+      "destinations": [
+        "Zurich",
+        "Bern",
+        "Geneva",
+        "Sachseln",
+        "Innsbruck",
+        "Seefeld in Tirol",
+        "Bolzano",
+        "Gardone Riviera",
+        "Prague",
+        "Frankfurt",
+        "Düsseldorf",
+        "London",
+        "Edinburgh",
+        "Glasgow"
+      ],
+      "notes": "",
+      "traveler_ids": [
+        "7b2e5f3a-0000-0000-0000-000000000002",
+        "7b2e5f3a-0000-0000-0000-000000000003"
+      ],
+      "stays": [
+        {
+          "id": "stay-bern-savoy-01",
+          "property_name": "Hotel Savoy Bern",
+          "stay_type": "Hotel",
+          "address": "Neuengasse 26, Ch-3011, Berne, Switzerland",
+          "city": "Bern",
+          "country": "Switzerland",
+          "country_code": "CH",
+          "check_in": "2026-05-19",
+          "check_out": "2026-05-23",
+          "booking_ref": "201-2646602 / 1",
+          "platform": "Traverse",
+          "room": "Double Room Comfort on Room Only",
+          "confirmation_no": "268195810",
+          "phone": "+41 313-286666",
+          "visa_zone": "Schengen",
+          "notes": "Hotel confirmation: 268195810 (Sabrina Jungen, Front Office). 4 nights, 2 adults. Amendment after 11-May-2026 may not be possible.",
+          "sort_order": 1,
+          "check_in_time": null,
+          "check_out_time": null,
+          "lat": 46.9492,
+          "long": 7.4479,
+          "map_url": "https://maps.google.com/?q=Hotel+Savoy+Bern,+Neuengasse+26,+Bern",
+          "website_url": "https://www.hotelsavoybern.ch"
+        },
+        {
+          "id": "stay-geneva-adina-01",
+          "property_name": "Adina Apartment Hotel Geneva",
+          "stay_type": "Apartment Hotel",
+          "address": "Route De Meyrin 125, 1219 Chatelaine, Vernier, Geneva, Switzerland",
+          "city": "Geneva",
+          "country": "Switzerland",
+          "country_code": "CH",
+          "check_in": "2026-05-23",
+          "check_out": "2026-05-25",
+          "booking_ref": "201-2646868 / 1",
+          "platform": "Traverse",
+          "room": "Apartment, 1 Bedroom (1 King Bed) on Room Only",
+          "confirmation_no": "",
+          "phone": "41-1-11111111",
+          "visa_zone": "Schengen",
+          "notes": "Non-refundable. Check-in from 3:00 PM. City tax CHF 4.25 per person/night payable at hotel. Mandatory Tax (Pay at Hotel): CHF 17.00. 2 nights, 2 adults.",
+          "sort_order": 2,
+          "check_in_time": "15:00",
+          "check_out_time": "11:00",
+          "lat": 46.2178,
+          "long": 6.0918,
+          "map_url": "https://maps.google.com/?q=Adina+Apartment+Hotel+Geneva,+Rue+de+Berne,+Geneva",
+          "website_url": "https://www.adinahotels.com/en/hotels/geneva/"
+        },
+        {
+          "id": "stay-sachseln-kreuz-01",
+          "property_name": "Hotel Kreuz",
+          "stay_type": "Hotel",
+          "address": "Bruder-Klausen-Weg 1, 6072 Sachseln, Lucerne, Switzerland",
+          "city": "Sachseln",
+          "country": "Switzerland",
+          "country_code": "CH",
+          "check_in": "2026-05-25",
+          "check_out": "2026-05-27",
+          "booking_ref": "201-2646107 / 1",
+          "platform": "Traverse",
+          "room": "Double Room - Comfort on Room Only",
+          "confirmation_no": "TCHTVADM-1",
+          "phone": "0041 (0) 41 6605300",
+          "visa_zone": "Schengen",
+          "notes": "No front desk — check-in instructions emailed within 24h before arrival. Private entrance access. Virtual front desk. City tax payable at hotel. 2 nights, 2 adults.",
+          "sort_order": 3,
+          "check_in_time": null,
+          "check_out_time": null,
+          "lat": 46.8723,
+          "long": 8.209,
+          "map_url": "https://maps.google.com/?q=Hotel+Kreuz+Sachseln,+Brünigstrasse+58,+Sachseln",
+          "website_url": "https://www.hotel-kreuz-sachseln.ch"
+        },
+        {
+          "id": "stay-innsbruck-adlers-01",
+          "property_name": "Adlers Hotel",
+          "stay_type": "Hotel",
+          "address": "Bruneckerstrasse 1, 6020 Innsbruck, Austria",
+          "city": "Innsbruck",
+          "country": "Austria",
+          "country_code": "AT",
+          "check_in": "2026-05-27",
+          "check_out": "2026-05-29",
+          "booking_ref": "201-2647483 / 1",
+          "platform": "Traverse",
+          "room": "Classic Twin Or Double on Room Only",
+          "confirmation_no": "ad178148",
+          "phone": "+435-12587109",
+          "visa_zone": "Schengen",
+          "notes": "Hotel confirmation: ad178148 (Taisa Musostova). City tax payable at hotel. No-show & early departures: 100% charges apply. Amendment after 12-May-2026 may not be possible. 2 nights, 2 adults.",
+          "sort_order": 4,
+          "check_in_time": null,
+          "check_out_time": null,
+          "lat": 47.2642,
+          "long": 11.4003,
+          "map_url": "https://maps.google.com/?q=Adlers+Hotel+Innsbruck,+Wilhelm-Greil-Straße+2",
+          "website_url": "https://www.adlers.at"
+        },
+        {
+          "id": "stay-seefeld-bb-01",
+          "property_name": "Seefelds Bed & Breakfast",
+          "stay_type": "Bed & Breakfast",
+          "address": "Bahnhofstrasse 124, 6100 Seefeld in Tirol, Austria",
+          "city": "Seefeld in Tirol",
+          "country": "Austria",
+          "country_code": "AT",
+          "check_in": "2026-05-29",
+          "check_out": "2026-06-01",
+          "booking_ref": "201-2647726 / 1",
+          "platform": "Traverse",
+          "room": "Superior Double Room (1 Queen Bed) with Breakfast",
+          "confirmation_no": "",
+          "phone": "43-52-122655",
+          "visa_zone": "Schengen",
+          "notes": "Non-refundable. Check-in 3:00 PM–10:00 PM (no after-hours check-in). Deposit: EUR 200.00 per stay payable at hotel. City tax EUR 5.00 per person/night. Mandatory Tax (Pay at Hotel): EUR 30.00. Breakfast included. 3 nights, 2 adults.",
+          "sort_order": 5,
+          "check_in_time": "15:00",
+          "check_out_time": "11:00",
+          "lat": 47.3298,
+          "long": 11.1873,
+          "map_url": "https://maps.google.com/?q=Seefeld+in+Tirol+Austria",
+          "website_url": ""
+        },
+        {
+          "id": "stay-bolzano-eisenhut-01",
+          "property_name": "Eisenhut Boutique Hotel",
+          "stay_type": "Boutique Hotel",
+          "address": "Bindergasse 21, 39100 Bolzano, Italy",
+          "city": "Bolzano",
+          "country": "Italy",
+          "country_code": "IT",
+          "check_in": "2026-06-01",
+          "check_out": "2026-06-04",
+          "booking_ref": "201-2648367 / 1",
+          "platform": "Traverse",
+          "room": "Klassik - King with Breakfast",
+          "confirmation_no": "",
+          "phone": "",
+          "visa_zone": "Schengen",
+          "notes": "Check-in 15:00–22:00. Must contact hotel with arrival time to receive special check-in instructions. Includes: breakfast, parking, bike rental, welcome drink, coffee & tea, express check-in, free WiFi, drinking water, fitness center access. 3 nights, 2 adults.",
+          "sort_order": 6,
+          "check_in_time": "15:00",
+          "check_out_time": "11:00",
+          "lat": 46.4997,
+          "long": 11.3543,
+          "map_url": "https://maps.google.com/?q=Hotel+Eisenhut+Boutique+Bolzano,+Via+della+Rena+6",
+          "website_url": "https://www.eisenhut.it"
+        },
+        {
+          "id": "stay-gardone-savoy-palace-01",
+          "property_name": "Hotel Savoy Palace",
+          "stay_type": "Hotel",
+          "address": "Via Zanardelli 2/4, Gardone Riviera, 25083 Brescia, Italy",
+          "city": "Gardone Riviera",
+          "country": "Italy",
+          "country_code": "IT",
+          "check_in": "2026-06-04",
+          "check_out": "2026-06-07",
+          "booking_ref": "201-2648157 / 1",
+          "platform": "Traverse",
+          "room": "Classic Room (1 Double Bed) with Breakfast",
+          "confirmation_no": "",
+          "phone": "39-0365-290588",
+          "visa_zone": "Schengen",
+          "notes": "Non-refundable. Check-in 2:00 PM–midnight. Beach nearby. City tax EUR 2.00 per person/night (Apr–Oct season). Mandatory Fee (Pay at Hotel): EUR 12.00. Breakfast included. Pool access 8 AM–7 PM. 3 nights, 2 adults.",
+          "sort_order": 7,
+          "check_in_time": "14:00",
+          "check_out_time": "11:00",
+          "lat": 45.6213,
+          "long": 10.5668,
+          "map_url": "https://maps.google.com/?q=Hotel+Savoy+Palace+Gardone+Riviera",
+          "website_url": "https://www.savoypalace.it"
+        },
+        {
+          "id": "stay-dusseldorf-01",
+          "property_name": "Düsseldorf Hotel",
+          "stay_type": "Hotel",
+          "address": "",
+          "city": "Düsseldorf",
+          "country": "Germany",
+          "country_code": "DE",
+          "check_in": "2026-06-09",
+          "check_out": "2026-06-15",
+          "booking_ref": "",
+          "platform": "",
+          "room": "",
+          "confirmation_no": "",
+          "phone": "",
+          "visa_zone": "Schengen",
+          "notes": "Placeholder — update with real booking details. Arriving 9 Jun (~19:32 from ZRH via ICE). Departing 15 Jun (Eurostar 08:10 to Brussels).",
+          "sort_order": 8,
+          "check_in_time": null,
+          "check_out_time": null,
+          "lat": 51.2195,
+          "long": 6.7938,
+          "map_url": "https://maps.google.com/?q=Holiday+Inn+Düsseldorf+City+Centre",
+          "website_url": "https://www.ihg.com/holidayinn/hotels/us/en/dusseldorf/duscc/hoteldetail"
+        },
+        {
+          "id": "stay-london-01",
+          "property_name": "London Base Hotel",
+          "stay_type": "Hotel",
+          "address": "",
+          "city": "London",
+          "country": "United Kingdom",
+          "country_code": "GB",
+          "check_in": "2026-06-15",
+          "check_out": "2026-07-15",
+          "booking_ref": "",
+          "platform": "",
+          "room": "",
+          "confirmation_no": "",
+          "phone": "",
+          "visa_zone": "UK",
+          "notes": "Placeholder — update with real booking details. Arriving 15 Jun (Eurostar 9133, London St Pancras 13:57). Departing 15 Jul (LH 2485 from LHR 07:25).",
+          "sort_order": 9,
+          "check_in_time": null,
+          "check_out_time": null,
+          "lat": 51.5074,
+          "long": -0.1278,
+          "map_url": "https://maps.google.com/?q=London+United+Kingdom",
+          "website_url": ""
+        }
+      ],
+      "transits": [
+        {
+          "id": "transit-del-zrh-01",
+          "mode": "flight",
+          "from_city": "Delhi",
+          "to_city": "Zurich",
+          "from_terminal": "Terminal 3",
+          "to_terminal": "Zurich International",
+          "departure_time": "2026-05-19T01:45:00",
+          "arrival_time": "2026-05-19T08:40:00",
+          "duration": "9 h 20 m",
+          "distance": "~6,300 km",
+          "booking_ref": "F8FTIO",
+          "platform": "MakeMyTrip (Booking ID: NN7AL75U86493651976)",
+          "operator_name": "Lufthansa LH 763 + Swiss LH 5762 (operated by Swiss)",
+          "seat_info": "Pramod e-tickets: 48697912555, 48697912566 | Shivani e-tickets: 48697912570, 48697912581",
+          "is_visa_boundary": true,
+          "boundary_label": "Entering Schengen Zone",
+          "visa_zone": "Schengen",
+          "notes": "Economy Basic. Cabin baggage 8 kg (1 PC)/adult, Check-in baggage 23 kg (1 PC)/adult. Booked via MakeMyTrip on 11 May 2026. Total paid: INR 1,97,726.",
+          "sort_order": 1,
+          "stops": [
+            {
+              "id": "stop-muc-01",
+              "city": "Munich",
+              "terminal": "Franz Josef Strauss Terminal 2",
+              "arrival_time": "2026-05-19T06:35:00",
+              "departure_time": "2026-05-19T07:40:00",
+              "layover": "1 h 5 m",
+              "sort_order": 1
+            }
+          ],
+          "from_lat": 28.5562,
+          "from_long": 77.1,
+          "from_map_url": "https://maps.google.com/?q=Indira+Gandhi+International+Airport+Terminal+3+Delhi",
+          "from_website_url": "https://www.newdelhiairport.in",
+          "to_lat": 47.4647,
+          "to_long": 8.5492,
+          "to_map_url": "https://maps.google.com/?q=Zurich+Airport+ZRH",
+          "to_website_url": "https://www.zurich-airport.com"
+        },
+        {
+          "id": "transit-zrh-flug-bern-01",
+          "mode": "train",
+          "from_city": "Zurich",
+          "to_city": "Bern",
+          "from_terminal": "Zürich Flughafen (Airport Station)",
+          "to_terminal": "Bern Bahnhof",
+          "departure_time": "2026-05-19T13:09:00",
+          "arrival_time": "2026-05-19T14:28:00",
+          "duration": "1 h 19 m",
+          "distance": "~118 km",
+          "booking_ref": "UQR0652V01",
+          "dnr": null,
+          "pnr": null,
+          "platform": "Eurail (Seat Reservation via Eurail B.V.)",
+          "operator_name": "SBB CFF FFS — Train 720, Class 1",
+          "seat_info": "Coach 2 | Seat 131 (Pramod), Seat 132 (Shivani) | Window | Non-smoking",
+          "is_visa_boundary": false,
+          "boundary_label": "",
+          "visa_zone": "Schengen",
+          "notes": "Reservation via Eurail B.V. Order UQR0652V01, Ref 850000245664. Price EUR 8.00. Class 1, window seats. Train from ZRH airport station directly to Bern (no change required).",
+          "sort_order": 2,
+          "stops": [],
+          "from_lat": 47.4506,
+          "from_long": 8.5625,
+          "from_map_url": "https://maps.google.com/?q=Zürich+Flughafen+Bahnhof",
+          "from_website_url": "https://www.sbb.ch/en/station-services/railway-stations/zurich-airport.html",
+          "to_lat": 46.9489,
+          "to_long": 7.4395,
+          "to_map_url": "https://maps.google.com/?q=Bern+Hauptbahnhof",
+          "to_website_url": "https://www.sbb.ch/en/station-services/railway-stations/bern.html"
+        },
+        {
+          "id": "transit-bern-geneva-01",
+          "mode": "train",
+          "from_city": "Bern",
+          "to_city": "Geneva",
+          "from_terminal": "Bern Hauptbahnhof",
+          "to_terminal": "Genève-Cornavin",
+          "departure_time": "2026-05-23T10:00:00",
+          "arrival_time": "2026-05-23T11:47:00",
+          "duration": "~1 h 47 min",
+          "distance": "~155 km",
+          "booking_ref": "Eurail Global Mobile Pass Flex",
+          "platform": "Eurail",
+          "operator_name": "Swiss Rail IC",
+          "seat_info": "",
+          "is_visa_boundary": false,
+          "boundary_label": "",
+          "visa_zone": "Schengen",
+          "notes": "Covered by Eurail Global Mobile Pass Flex. Adina Apartment Hotel is in Chatelaine, Vernier — take local bus/tram from Cornavin.",
+          "sort_order": 3,
+          "stops": [],
+          "from_lat": 46.9489,
+          "from_long": 7.4395,
+          "from_map_url": "https://maps.google.com/?q=Bern+Hauptbahnhof",
+          "from_website_url": "https://www.sbb.ch/en/station-services/railway-stations/bern.html",
+          "to_lat": 46.2101,
+          "to_long": 6.1426,
+          "to_map_url": "https://maps.google.com/?q=Geneva+Cornavin+Station",
+          "to_website_url": "https://www.sbb.ch/en/station-services/railway-stations/geneva-cornavin.html"
+        },
+        {
+          "id": "transit-geneva-sachseln-01",
+          "mode": "train",
+          "from_city": "Geneva",
+          "to_city": "Sachseln",
+          "from_terminal": "Genève-Cornavin",
+          "to_terminal": "Sachseln Bahnhof",
+          "departure_time": "2026-05-25T09:00:00",
+          "arrival_time": "2026-05-25T12:30:00",
+          "duration": "~3 h 30 min",
+          "distance": "~230 km",
+          "booking_ref": "Eurail Global Mobile Pass Flex",
+          "platform": "Eurail",
+          "operator_name": "Swiss Rail IC/IR",
+          "seat_info": "",
+          "is_visa_boundary": false,
+          "boundary_label": "",
+          "visa_zone": "Schengen",
+          "notes": "Covered by Eurail Global Mobile Pass Flex. Route via Bern and Lucerne/Sarnen. Hotel Kreuz is in Sachseln village.",
+          "sort_order": 4,
+          "stops": [],
+          "from_lat": 46.2101,
+          "from_long": 6.1426,
+          "from_map_url": "https://maps.google.com/?q=Geneva+Cornavin+Station",
+          "from_website_url": "https://www.sbb.ch/en/station-services/railway-stations/geneva-cornavin.html",
+          "to_lat": 46.87,
+          "to_long": 8.212,
+          "to_map_url": "https://maps.google.com/?q=Sachseln+Bahnhof+Switzerland",
+          "to_website_url": "https://www.sbb.ch"
+        },
+        {
+          "id": "transit-sachseln-zrh-01",
+          "mode": "train",
+          "from_city": "Sachseln",
+          "to_city": "Zurich",
+          "from_terminal": "Sachseln Bahnhof",
+          "to_terminal": "Zürich HB (Hauptbahnhof)",
+          "departure_time": "2026-05-27T08:00:00",
+          "arrival_time": "2026-05-27T09:45:00",
+          "duration": "~1 h 45 min",
+          "distance": "~75 km",
+          "booking_ref": "Eurail Global Mobile Pass Flex",
+          "dnr": null,
+          "pnr": null,
+          "platform": "Eurail",
+          "operator_name": "SBB CFF FFS",
+          "seat_info": "",
+          "is_visa_boundary": false,
+          "boundary_label": "",
+          "visa_zone": "Schengen",
+          "notes": "Covered by Eurail Global Mobile Pass Flex — no seat reservation required. Route via Sarnen / Luzern to Zürich HB. Needed to connect to RJX 165 at ZRH HB (dep 10:40).",
+          "sort_order": 5,
+          "stops": [],
+          "from_lat": 46.87,
+          "from_long": 8.212,
+          "from_map_url": "https://maps.google.com/?q=Sachseln+Bahnhof+Switzerland",
+          "from_website_url": "https://www.sbb.ch",
+          "to_lat": 47.3782,
+          "to_long": 8.5403,
+          "to_map_url": "https://maps.google.com/?q=Zürich+Hauptbahnhof",
+          "to_website_url": "https://www.sbb.ch/en/station-services/railway-stations/zurich.html"
+        },
+        {
+          "id": "transit-zrh-innsbruck-01",
+          "mode": "train",
+          "from_city": "Zurich",
+          "to_city": "Innsbruck",
+          "from_terminal": "Zürich HB (Hauptbahnhof)",
+          "to_terminal": "Innsbruck Hauptbahnhof (HBF)",
+          "departure_time": "2026-05-27T10:40:00",
+          "arrival_time": "2026-05-27T14:11:00",
+          "duration": "3 h 31 m",
+          "distance": "~295 km",
+          "booking_ref": "DNR: QXKHJXG",
+          "dnr": "QXKHJXG",
+          "pnr": null,
+          "platform": "Eurail (via Eurail-moove)",
+          "operator_name": "ÖBB Railjet Xpress — Train RJX 165, Class 1",
+          "seat_info": "Coach 26 | Seat 93 (Pramod), Seat 94 (Shivani) | Non-smoking | Open Coach | 2 Corridor",
+          "is_visa_boundary": false,
+          "boundary_label": "CH → AT (both Schengen)",
+          "visa_zone": "Schengen",
+          "notes": "Reservation DNR QXKHJXG. CIV 1088. Price EUR 12.00. Crosses Swiss–Austrian border (both Schengen, no passport control). Valid in combination with Eurail Global Pass.",
+          "sort_order": 6,
+          "stops": [],
+          "from_lat": 47.3782,
+          "from_long": 8.5403,
+          "from_map_url": "https://maps.google.com/?q=Zürich+Hauptbahnhof",
+          "from_website_url": "https://www.sbb.ch/en/station-services/railway-stations/zurich.html",
+          "to_lat": 47.2634,
+          "to_long": 11.4009,
+          "to_map_url": "https://maps.google.com/?q=Innsbruck+Hauptbahnhof",
+          "to_website_url": "https://www.oebb.at/en/station-info/innsbruck-hbf"
+        },
+        {
+          "id": "transit-innsbruck-seefeld-01",
+          "mode": "train",
+          "from_city": "Innsbruck",
+          "to_city": "Seefeld in Tirol",
+          "from_terminal": "Innsbruck Hauptbahnhof",
+          "to_terminal": "Seefeld in Tirol Bahnhof",
+          "departure_time": "2026-05-29T10:00:00",
+          "arrival_time": "2026-05-29T10:35:00",
+          "duration": "~35 min",
+          "distance": "~18 km",
+          "booking_ref": "Eurail Global Mobile Pass Flex",
+          "platform": "Eurail",
+          "operator_name": "ÖBB Mittenwaldbahn",
+          "seat_info": "",
+          "is_visa_boundary": false,
+          "boundary_label": "",
+          "visa_zone": "Schengen",
+          "notes": "Covered by Eurail Global Mobile Pass Flex.",
+          "sort_order": 7,
+          "stops": [],
+          "from_lat": 47.2634,
+          "from_long": 11.4009,
+          "from_map_url": "https://maps.google.com/?q=Innsbruck+Hauptbahnhof",
+          "from_website_url": "https://www.oebb.at/en/station-info/innsbruck-hbf",
+          "to_lat": 47.3296,
+          "to_long": 11.1892,
+          "to_map_url": "https://maps.google.com/?q=Seefeld+in+Tirol+Bahnhof",
+          "to_website_url": "https://www.oebb.at"
+        },
+        {
+          "id": "transit-seefeld-innsbruck-01",
+          "mode": "train",
+          "from_city": "Seefeld in Tirol",
+          "to_city": "Innsbruck",
+          "from_terminal": "Seefeld in Tirol Bahnhof",
+          "to_terminal": "Innsbruck Hauptbahnhof (HBF)",
+          "departure_time": "2026-06-01T10:00:00",
+          "arrival_time": "2026-06-01T10:35:00",
+          "duration": "~35 min",
+          "distance": "~18 km",
+          "booking_ref": "Eurail Global Mobile Pass Flex",
+          "dnr": null,
+          "pnr": null,
+          "platform": "Eurail",
+          "operator_name": "ÖBB Mittenwaldbahn",
+          "seat_info": "",
+          "is_visa_boundary": false,
+          "boundary_label": "",
+          "visa_zone": "Schengen",
+          "notes": "Covered by Eurail Global Mobile Pass Flex — no reservation required. Needed to connect to RJ 83 at Innsbruck HBF (dep 11:30 to Bolzano).",
+          "sort_order": 8,
+          "stops": [],
+          "from_lat": 47.3296,
+          "from_long": 11.1892,
+          "from_map_url": "https://maps.google.com/?q=Seefeld+in+Tirol+Bahnhof",
+          "from_website_url": "https://www.oebb.at",
+          "to_lat": 47.2634,
+          "to_long": 11.4009,
+          "to_map_url": "https://maps.google.com/?q=Innsbruck+Hauptbahnhof",
+          "to_website_url": "https://www.oebb.at/en/station-info/innsbruck-hbf"
+        },
+        {
+          "id": "transit-innsbruck-bolzano-01",
+          "mode": "train",
+          "from_city": "Innsbruck",
+          "to_city": "Bolzano",
+          "from_terminal": "Innsbruck Hauptbahnhof (HBF)",
+          "to_terminal": "Bolzano/Bozen Bahnhof",
+          "departure_time": "2026-06-01T11:30:00",
+          "arrival_time": "2026-06-01T13:27:00",
+          "duration": "1 h 57 m",
+          "distance": "~120 km",
+          "booking_ref": "DNR: TWRFRMF",
+          "dnr": "TWRFRMF",
+          "pnr": null,
+          "platform": "Eurail (via SNCB/Eurail-moove)",
+          "operator_name": "ÖBB/Trenitalia Railjet Express — Train RJ 83, Class 1",
+          "seat_info": "Coach 262 | Seat 46 (Pramod), Seat 41 (Shivani) | Non-smoking | Table Seat | Window",
+          "is_visa_boundary": false,
+          "boundary_label": "AT → IT (both Schengen)",
+          "visa_zone": "Schengen",
+          "notes": "Ticket + Reservation DNR TWRFRMF. CIV 1088. Price EUR 30.00 (supplement included). Carriers 1181 + 1280. PASS ONLY — valid in combination with Eurail Global Pass. Crosses Brenner Pass (Austria → Italy, both Schengen).",
+          "sort_order": 9,
+          "stops": [],
+          "from_lat": 47.2634,
+          "from_long": 11.4009,
+          "from_map_url": "https://maps.google.com/?q=Innsbruck+Hauptbahnhof",
+          "from_website_url": "https://www.oebb.at/en/station-info/innsbruck-hbf",
+          "to_lat": 46.4976,
+          "to_long": 11.3526,
+          "to_map_url": "https://maps.google.com/?q=Bolzano+Bozen+Bahnhof",
+          "to_website_url": "https://www.trenitalia.com"
+        },
+        {
+          "id": "transit-bolzano-gardone-01",
+          "mode": "train",
+          "from_city": "Bolzano",
+          "to_city": "Gardone Riviera",
+          "from_terminal": "Bolzano/Bozen Bahnhof",
+          "to_terminal": "Desenzano del Garda (nearest rail)",
+          "departure_time": "2026-06-04T09:00:00",
+          "arrival_time": "2026-06-04T12:30:00",
+          "duration": "~3 h 30 min",
+          "distance": "~180 km",
+          "booking_ref": "Eurail Global Mobile Pass Flex",
+          "platform": "Eurail",
+          "operator_name": "Trenitalia",
+          "seat_info": "",
+          "is_visa_boundary": false,
+          "boundary_label": "",
+          "visa_zone": "Schengen",
+          "notes": "Covered by Eurail Global Mobile Pass Flex. Train to Desenzano del Garda, then bus/taxi to Gardone Riviera (~15 km). Alternatively train to Brescia and onward bus.",
+          "sort_order": 10,
+          "stops": [],
+          "from_lat": 46.4976,
+          "from_long": 11.3526,
+          "from_map_url": "https://maps.google.com/?q=Bolzano+Bozen+Bahnhof",
+          "from_website_url": "https://www.trenitalia.com",
+          "to_lat": 45.4673,
+          "to_long": 10.5322,
+          "to_map_url": "https://maps.google.com/?q=Desenzano+del+Garda+Station",
+          "to_website_url": "https://www.trenitalia.com"
+        },
+        {
+          "id": "transit-gardone-milano-01",
+          "mode": "train",
+          "from_city": "Gardone Riviera",
+          "to_city": "Milan",
+          "from_terminal": "Desenzano del Garda or Brescia Bahnhof",
+          "to_terminal": "Milano Centrale",
+          "departure_time": "2026-06-07T10:00:00",
+          "arrival_time": "2026-06-07T11:30:00",
+          "duration": "~1 h 30 min",
+          "distance": "~95 km",
+          "booking_ref": "Eurail Global Mobile Pass Flex",
+          "dnr": null,
+          "pnr": null,
+          "platform": "Eurail",
+          "operator_name": "Trenitalia",
+          "seat_info": "",
+          "is_visa_boundary": false,
+          "boundary_label": "",
+          "visa_zone": "Schengen",
+          "notes": "PLACEHOLDER — no ticket in documents. Bus or taxi from Gardone to Desenzano/Brescia, then Trenitalia to Milano Centrale. Must be in Milano area by 9 Jun (EC 14 departs 09:10). Stay in Milan likely 7-9 Jun.",
+          "sort_order": 11,
+          "stops": [],
+          "from_lat": 45.4673,
+          "from_long": 10.5322,
+          "from_map_url": "https://maps.google.com/?q=Desenzano+del+Garda+Station",
+          "from_website_url": "https://www.trenitalia.com",
+          "to_lat": 45.4854,
+          "to_long": 9.2044,
+          "to_map_url": "https://maps.google.com/?q=Milano+Centrale+Station",
+          "to_website_url": "https://www.trenitalia.com/en/services/station.html"
+        },
+        {
+          "id": "transit-milano-zrh-01",
+          "mode": "train",
+          "from_city": "Milan",
+          "to_city": "Zurich",
+          "from_terminal": "Milano Centrale",
+          "to_terminal": "Zürich HB (Hauptbahnhof)",
+          "departure_time": "2026-06-09T09:10:00",
+          "arrival_time": "2026-06-09T12:27:00",
+          "duration": "3 h 17 m",
+          "distance": "~290 km",
+          "booking_ref": "DNR: XCFVTSM",
+          "dnr": "XCFVTSM",
+          "pnr": "SREPRN",
+          "platform": "Eurail (via SNCB/Eurail-moove) — Order R2026406551",
+          "operator_name": "SBB/Trenitalia Eurocity — Train EC 14, Class 1",
+          "seat_info": "Coach 11 | Seat 062 (Pramod), Seat 061 (Shivani) | Non-smoking | Window",
+          "is_visa_boundary": false,
+          "boundary_label": "IT → CH (both Schengen)",
+          "visa_zone": "Schengen",
+          "notes": "Ticket + Reservation DNR XCFVTSM / PNR SREPRN. CIV 1088. Price EUR 34.00. Global Pass tariff — complementary document (Eurail Pass) required. Carriers 1183 + 1185. Payment confirmation order R2026406551 (Interrail.eu, USD 40.46 × 2).",
+          "sort_order": 12,
+          "stops": [],
+          "from_lat": 45.4854,
+          "from_long": 9.2044,
+          "from_map_url": "https://maps.google.com/?q=Milano+Centrale+Station",
+          "from_website_url": "https://www.trenitalia.com/en/services/station.html",
+          "to_lat": 47.3782,
+          "to_long": 8.5403,
+          "to_map_url": "https://maps.google.com/?q=Zürich+Hauptbahnhof",
+          "to_website_url": "https://www.sbb.ch/en/station-services/railway-stations/zurich.html"
+        },
+        {
+          "id": "transit-zrh-dusseldorf-01",
+          "mode": "train",
+          "from_city": "Zurich",
+          "to_city": "Düsseldorf",
+          "from_terminal": "Zürich HB (Hauptbahnhof)",
+          "to_terminal": "Düsseldorf Hauptbahnhof (HBF)",
+          "departure_time": "2026-06-09T13:59:00",
+          "arrival_time": "2026-06-09T19:32:00",
+          "duration": "5 h 33 m",
+          "distance": "~580 km",
+          "booking_ref": "UQR0620P01",
+          "dnr": null,
+          "pnr": null,
+          "platform": "Eurail (Seat Reservation via Eurail B.V.) — Order R2026406551",
+          "operator_name": "Deutsche Bahn — Train ICE 104, Class 1",
+          "seat_info": "Coach 11 | Seat 072 (Pramod), Seat 073 (Shivani) | Non-smoking | Middle seats",
+          "is_visa_boundary": false,
+          "boundary_label": "CH → DE (both Schengen)",
+          "visa_zone": "Schengen",
+          "notes": "Reservation via Eurail B.V. Order UQR0620P01, Ref 804300100048. Price EUR 8.00. Intercity-Express. Same-day connection after EC 14 from Milano — 1 h 32 m connection time at ZRH HB. Payment confirmation order R2026406551 (Interrail.eu, USD 9.52 × 2).",
+          "sort_order": 13,
+          "stops": [],
+          "from_lat": 47.3782,
+          "from_long": 8.5403,
+          "from_map_url": "https://maps.google.com/?q=Zürich+Hauptbahnhof",
+          "from_website_url": "https://www.sbb.ch/en/station-services/railway-stations/zurich.html",
+          "to_lat": 51.2195,
+          "to_long": 6.7938,
+          "to_map_url": "https://maps.google.com/?q=Düsseldorf+Hauptbahnhof",
+          "to_website_url": "https://www.bahn.de"
+        },
+        {
+          "id": "transit-dusseldorf-brussels-01",
+          "mode": "train",
+          "from_city": "Düsseldorf",
+          "to_city": "Brussels",
+          "from_terminal": "Düsseldorf Hauptbahnhof (HBF)",
+          "to_terminal": "Bruxelles-Midi / Zuid",
+          "departure_time": "2026-06-15T08:10:00",
+          "arrival_time": "2026-06-15T10:35:00",
+          "duration": "2 h 25 m",
+          "distance": "~220 km",
+          "booking_ref": "PNR: Z7HCXY",
+          "dnr": null,
+          "pnr": "Z7HCXY",
+          "platform": "Eurostar",
+          "operator_name": "Eurostar Plus — Train 9426, CIV 0018",
+          "seat_info": "Coach 22 | Seat 72 (Pramod, Ticket 246228601) | Seat 75 (Shivani, Ticket 716216865) | Eurostar Plus class",
+          "is_visa_boundary": false,
+          "boundary_label": "DE → BE (both Schengen)",
+          "visa_zone": "Schengen",
+          "notes": "PNR Z7HCXY. Arrive at Düsseldorf HBF station by 07:50 local time. Ticket issued 16/05/26. Rail Pass 1st class. Coach numbers indicated next to train doors.",
+          "sort_order": 14,
+          "stops": [],
+          "from_lat": 51.2195,
+          "from_long": 6.7938,
+          "from_map_url": "https://maps.google.com/?q=Düsseldorf+Hauptbahnhof",
+          "from_website_url": "https://www.bahn.de",
+          "to_lat": 50.8356,
+          "to_long": 4.3365,
+          "to_map_url": "https://maps.google.com/?q=Brussels+Midi+Zuid+Station",
+          "to_website_url": "https://www.belgiantrain.be"
+        },
+        {
+          "id": "transit-brussels-london-01",
+          "mode": "train",
+          "from_city": "Brussels",
+          "to_city": "London",
+          "from_terminal": "Bruxelles-Midi / Zuid (Eurostar Departures)",
+          "to_terminal": "London St Pancras International",
+          "departure_time": "2026-06-15T12:56:00",
+          "arrival_time": "2026-06-15T13:57:00",
+          "duration": "1 h 01 m (local time)",
+          "distance": "~370 km",
+          "booking_ref": "PNR: JG6P4K",
+          "dnr": null,
+          "pnr": "JG6P4K",
+          "platform": "Eurostar",
+          "operator_name": "Eurostar Plus — Train 9133, CIV 0019",
+          "seat_info": "Coach 3 | Seat 77 (Pramod, Ticket 218838192) | Seat 78 (Shivani, Ticket 757657791) | Eurostar Plus class",
+          "is_visa_boundary": true,
+          "boundary_label": "Entering UK (Schengen Exit via Channel Tunnel)",
+          "visa_zone": "UK",
+          "notes": "PNR JG6P4K. Arrive at Eurostar Departures at Bruxelles-Midi by 12:06 local time. Ticket gates close 30 min before departure. UK–EU border checks. Passport required. Ticket issued 16/05/26.",
+          "sort_order": 15,
+          "stops": [],
+          "from_lat": 50.8356,
+          "from_long": 4.3365,
+          "from_map_url": "https://maps.google.com/?q=Brussels+Midi+Zuid+Station",
+          "from_website_url": "https://www.belgiantrain.be",
+          "to_lat": 51.5311,
+          "to_long": -0.1237,
+          "to_map_url": "https://maps.google.com/?q=London+St+Pancras+International+Station",
+          "to_website_url": "https://www.stpancras.com"
+        },
+        {
+          "id": "transit-lon-del-01",
+          "mode": "flight",
+          "from_city": "London",
+          "to_city": "Delhi",
+          "from_terminal": "Heathrow Terminal 2",
+          "to_terminal": "Terminal 3",
+          "departure_time": "2026-07-15T07:25:00",
+          "arrival_time": "2026-07-15T23:55:00",
+          "duration": "9 h 25 m",
+          "distance": "~6,700 km",
+          "booking_ref": "F8FTIO",
+          "platform": "MakeMyTrip (Booking ID: NN7AL75U86493651976)",
+          "operator_name": "Lufthansa LH 2485 + LH 762",
+          "seat_info": "Pramod e-tickets: 48697912555, 48697912566 | Shivani e-tickets: 48697912570, 48697912581",
+          "is_visa_boundary": true,
+          "boundary_label": "Departing UK",
+          "visa_zone": "—",
+          "notes": "Economy Basic. Cabin baggage 8 kg (1 PC)/adult, Check-in baggage 23 kg (1 PC)/adult. Same PNR as outbound (F8FTIO).",
+          "sort_order": 16,
+          "stops": [
+            {
+              "id": "stop-muc-02",
+              "city": "Munich",
+              "terminal": "Franz Josef Strauss Terminal 2",
+              "arrival_time": "2026-07-15T10:20:00",
+              "departure_time": "2026-07-15T12:55:00",
+              "layover": "2 h 35 m",
+              "sort_order": 1
+            }
+          ],
+          "from_lat": 51.4775,
+          "from_long": -0.4614,
+          "from_map_url": "https://maps.google.com/?q=London+Heathrow+Airport+Terminal+2",
+          "from_website_url": "https://www.heathrow.com",
+          "to_lat": 28.5562,
+          "to_long": 77.1,
+          "to_map_url": "https://maps.google.com/?q=Indira+Gandhi+International+Airport+Terminal+3+Delhi",
+          "to_website_url": "https://www.newdelhiairport.in"
+        }
+      ],
+      "special_bookings": [
+        {
+          "id": "special-eurail-pass-01",
+          "type": "rail_pass",
+          "name": "Eurail Global Mobile Pass Flex",
+          "sub_type": "Flexi Pass",
+          "valid_from": "2026-05-15",
+          "valid_until": "2027-04-14",
+          "days": "10 Days / Within 2 Months",
+          "pax": "2 Adults",
+          "nationality": "India",
+          "notes": "Mobile/digital pass. Activate a travel day each time you board a train. Valid on Swiss Rail, ÖBB, Trenitalia, Deutsche Bahn, SNCF, and most European networks. Covers the Switzerland · Austria · Italy · Germany legs. 10 flexible days must be used within 2 months of first activation."
+        }
+      ],
+      "visas": [
+        {
+          "id": "visa-pramod-schengen-01",
+          "traveler_id": "7b2e5f3a-0000-0000-0000-000000000002",
+          "type": "Schengen",
+          "issuing_country": "Switzerland",
+          "countries": [
+            "Switzerland",
+            "Austria",
+            "Italy",
+            "Czech Republic",
+            "Germany"
+          ],
+          "valid_from": "2026-05-18",
+          "valid_until": "2026-07-10",
+          "entry_type": "Multiple",
+          "max_stay": 90,
+          "visa_number": "SCH-2026-PD",
+          "notes": "Covers CH · AT · IT · CZ · DE legs"
+        },
+        {
+          "id": "visa-pramod-uk-01",
+          "traveler_id": "7b2e5f3a-0000-0000-0000-000000000002",
+          "type": "UK",
+          "issuing_country": "United Kingdom",
+          "countries": [
+            "United Kingdom"
+          ],
+          "valid_from": "2026-06-15",
+          "valid_until": "2026-12-15",
+          "entry_type": "Multiple",
+          "max_stay": 180,
+          "visa_number": "UK-2026-PD",
+          "notes": "Covers UK Tour leg (Jun 17 – Jul 15)"
+        },
+        {
+          "id": "visa-shivani-schengen-01",
+          "traveler_id": "7b2e5f3a-0000-0000-0000-000000000003",
+          "type": "Schengen",
+          "issuing_country": "Switzerland",
+          "countries": [
+            "Switzerland",
+            "Austria",
+            "Italy",
+            "Czech Republic",
+            "Germany"
+          ],
+          "valid_from": "2026-05-18",
+          "valid_until": "2026-07-10",
+          "entry_type": "Multiple",
+          "max_stay": 90,
+          "visa_number": "SCH-2026-SD",
+          "notes": "Covers CH · AT · IT · CZ · DE legs"
+        },
+        {
+          "id": "visa-shivani-uk-01",
+          "traveler_id": "7b2e5f3a-0000-0000-0000-000000000003",
+          "type": "UK",
+          "issuing_country": "United Kingdom",
+          "countries": [
+            "United Kingdom"
+          ],
+          "valid_from": "2026-06-15",
+          "valid_until": "2026-12-15",
+          "entry_type": "Multiple",
+          "max_stay": 180,
+          "visa_number": "UK-2026-SD",
+          "notes": "Covers UK Tour leg (Jun 17 – Jul 15)"
+        }
+      ]
+    }
+  ],
+  "places_visited": [
+    {
+      "id": "place-pramod-zurich",
+      "traveler_id": "7b2e5f3a-0000-0000-0000-000000000002",
+      "package_id": "7b2e5f3a-0000-0000-0000-000000000001",
+      "country": "Switzerland",
+      "city": "Zurich",
+      "country_code": "CH",
+      "flag": "🇨🇭",
+      "visit_date": "2026-05-19",
+      "notes": "Transit — arrived ZRH 08:40 on LH 5762",
+      "lat": 47.3769,
+      "long": 8.5417,
+      "map_url": "https://maps.google.com/?q=Zurich+Switzerland",
+      "website_url": "https://www.zuerich.com/en"
+    },
+    {
+      "id": "place-pramod-bern",
+      "traveler_id": "7b2e5f3a-0000-0000-0000-000000000002",
+      "package_id": "7b2e5f3a-0000-0000-0000-000000000001",
+      "country": "Switzerland",
+      "city": "Bern",
+      "country_code": "CH",
+      "flag": "🇨🇭",
+      "visit_date": "2026-05-19",
+      "notes": "Hotel Savoy Bern (19–23 May)",
+      "lat": 46.9481,
+      "long": 7.4474,
+      "map_url": "https://maps.google.com/?q=Bern+Switzerland",
+      "website_url": "https://www.bern.com/en"
+    },
+    {
+      "id": "place-pramod-geneva",
+      "traveler_id": "7b2e5f3a-0000-0000-0000-000000000002",
+      "package_id": "7b2e5f3a-0000-0000-0000-000000000001",
+      "country": "Switzerland",
+      "city": "Geneva",
+      "country_code": "CH",
+      "flag": "🇨🇭",
+      "visit_date": "2026-05-23",
+      "notes": "Adina Apartment Hotel Geneva (23–25 May)",
+      "lat": 46.2044,
+      "long": 6.1432,
+      "map_url": "https://maps.google.com/?q=Geneva+Switzerland",
+      "website_url": "https://www.geneve.com/en"
+    },
+    {
+      "id": "place-pramod-sachseln",
+      "traveler_id": "7b2e5f3a-0000-0000-0000-000000000002",
+      "package_id": "7b2e5f3a-0000-0000-0000-000000000001",
+      "country": "Switzerland",
+      "city": "Sachseln",
+      "country_code": "CH",
+      "flag": "🇨🇭",
+      "visit_date": "2026-05-25",
+      "notes": "Hotel Kreuz, Sachseln / Lucerne area (25–27 May)",
+      "lat": 46.87,
+      "long": 8.212,
+      "map_url": "https://maps.google.com/?q=Sachseln+Switzerland",
+      "website_url": "https://www.sachseln.ch"
+    },
+    {
+      "id": "place-pramod-innsbruck",
+      "traveler_id": "7b2e5f3a-0000-0000-0000-000000000002",
+      "package_id": "7b2e5f3a-0000-0000-0000-000000000001",
+      "country": "Austria",
+      "city": "Innsbruck",
+      "country_code": "AT",
+      "flag": "🇦🇹",
+      "visit_date": "2026-05-27",
+      "notes": "Adlers Hotel (27–29 May)",
+      "lat": 47.2682,
+      "long": 11.3947,
+      "map_url": "https://maps.google.com/?q=Innsbruck+Austria",
+      "website_url": "https://www.innsbruck.info/en"
+    },
+    {
+      "id": "place-pramod-seefeld",
+      "traveler_id": "7b2e5f3a-0000-0000-0000-000000000002",
+      "package_id": "7b2e5f3a-0000-0000-0000-000000000001",
+      "country": "Austria",
+      "city": "Seefeld in Tirol",
+      "country_code": "AT",
+      "flag": "🇦🇹",
+      "visit_date": "2026-05-29",
+      "notes": "Seefelds Bed & Breakfast (29 May – 1 Jun)",
+      "lat": 47.3293,
+      "long": 11.1859,
+      "map_url": "https://maps.google.com/?q=Seefeld+in+Tirol+Austria",
+      "website_url": "https://www.seefeld.com/en"
+    },
+    {
+      "id": "place-pramod-bolzano",
+      "traveler_id": "7b2e5f3a-0000-0000-0000-000000000002",
+      "package_id": "7b2e5f3a-0000-0000-0000-000000000001",
+      "country": "Italy",
+      "city": "Bolzano",
+      "country_code": "IT",
+      "flag": "🇮🇹",
+      "visit_date": "2026-06-01",
+      "notes": "Eisenhut Boutique Hotel (1–4 Jun)",
+      "lat": 46.4985,
+      "long": 11.3548,
+      "map_url": "https://maps.google.com/?q=Bolzano+Bozen+Italy",
+      "website_url": "https://www.bolzano-bozen.it"
+    },
+    {
+      "id": "place-pramod-gardone",
+      "traveler_id": "7b2e5f3a-0000-0000-0000-000000000002",
+      "package_id": "7b2e5f3a-0000-0000-0000-000000000001",
+      "country": "Italy",
+      "city": "Gardone Riviera",
+      "country_code": "IT",
+      "flag": "🇮🇹",
+      "visit_date": "2026-06-04",
+      "notes": "Hotel Savoy Palace (4–7 Jun)",
+      "lat": 45.6209,
+      "long": 10.5664,
+      "map_url": "https://maps.google.com/?q=Gardone+Riviera+Italy",
+      "website_url": "https://www.gardoneriviera.eu"
+    },
+    {
+      "id": "place-pramod-dusseldorf",
+      "traveler_id": "7b2e5f3a-0000-0000-0000-000000000002",
+      "package_id": "7b2e5f3a-0000-0000-0000-000000000001",
+      "country": "Germany",
+      "city": "Düsseldorf",
+      "country_code": "DE",
+      "flag": "🇩🇪",
+      "visit_date": "2026-06-09",
+      "notes": "Düsseldorf stay (9–15 Jun). Arrived by ICE 104 from ZRH HB.",
+      "lat": 51.2217,
+      "long": 6.7762,
+      "map_url": "https://maps.google.com/?q=Düsseldorf+Germany",
+      "website_url": "https://www.duesseldorf-tourismus.de/en"
+    },
+    {
+      "id": "place-pramod-london",
+      "traveler_id": "7b2e5f3a-0000-0000-0000-000000000002",
+      "package_id": "7b2e5f3a-0000-0000-0000-000000000001",
+      "country": "United Kingdom",
+      "city": "London",
+      "country_code": "GB",
+      "flag": "🇬🇧",
+      "visit_date": "2026-06-15",
+      "notes": "London (15 Jun – 15 Jul). Arrived by Eurostar 9133, St Pancras 13:57.",
+      "lat": 51.5074,
+      "long": -0.1278,
+      "map_url": "https://maps.google.com/?q=London+United+Kingdom",
+      "website_url": "https://www.visitlondon.com"
+    },
+    {
+      "id": "place-pramod-edinburgh",
+      "traveler_id": "7b2e5f3a-0000-0000-0000-000000000002",
+      "package_id": "7b2e5f3a-0000-0000-0000-000000000001",
+      "country": "United Kingdom",
+      "city": "Edinburgh",
+      "country_code": "GB",
+      "flag": "🇬🇧",
+      "visit_date": "2026-06-22",
+      "notes": "Placeholder",
+      "lat": 55.9533,
+      "long": -3.1883,
+      "map_url": "https://maps.google.com/?q=Edinburgh+Scotland",
+      "website_url": "https://www.visitscotland.com/destinations-maps/edinburgh"
+    },
+    {
+      "id": "place-pramod-inverness",
+      "traveler_id": "7b2e5f3a-0000-0000-0000-000000000002",
+      "package_id": "7b2e5f3a-0000-0000-0000-000000000001",
+      "country": "United Kingdom",
+      "city": "Inverness",
+      "country_code": "GB",
+      "flag": "🇬🇧",
+      "visit_date": "2026-06-25",
+      "notes": "Placeholder",
+      "lat": 57.4778,
+      "long": -4.2247,
+      "map_url": "https://maps.google.com/?q=Inverness+Scotland",
+      "website_url": "https://www.visitscotland.com/destinations-maps/inverness-loch-ness"
+    },
+    {
+      "id": "place-pramod-pitlochry",
+      "traveler_id": "7b2e5f3a-0000-0000-0000-000000000002",
+      "package_id": "7b2e5f3a-0000-0000-0000-000000000001",
+      "country": "United Kingdom",
+      "city": "Pitlochry",
+      "country_code": "GB",
+      "flag": "🇬🇧",
+      "visit_date": "2026-06-27",
+      "notes": "Placeholder",
+      "lat": 56.7019,
+      "long": -3.7339,
+      "map_url": "https://maps.google.com/?q=Pitlochry+Scotland",
+      "website_url": "https://www.visitscotland.com/destinations-maps/pitlochry"
+    },
+    {
+      "id": "place-pramod-glasgow",
+      "traveler_id": "7b2e5f3a-0000-0000-0000-000000000002",
+      "package_id": "7b2e5f3a-0000-0000-0000-000000000001",
+      "country": "United Kingdom",
+      "city": "Glasgow",
+      "country_code": "GB",
+      "flag": "🇬🇧",
+      "visit_date": "2026-06-29",
+      "notes": "Placeholder",
+      "lat": 55.8642,
+      "long": -4.2518,
+      "map_url": "https://maps.google.com/?q=Glasgow+Scotland",
+      "website_url": "https://www.peoplemakeglasgow.com"
+    },
+    {
+      "id": "place-pramod-lkdistrict",
+      "traveler_id": "7b2e5f3a-0000-0000-0000-000000000002",
+      "package_id": "7b2e5f3a-0000-0000-0000-000000000001",
+      "country": "United Kingdom",
+      "city": "Lake District",
+      "country_code": "GB",
+      "flag": "🇬🇧",
+      "visit_date": "2026-07-03",
+      "notes": "Placeholder",
+      "lat": 54.4609,
+      "long": -3.0886,
+      "map_url": "https://maps.google.com/?q=Lake+District+National+Park+England",
+      "website_url": "https://www.lakedistrict.gov.uk"
+    },
+    {
+      "id": "place-pramod-cardiff",
+      "traveler_id": "7b2e5f3a-0000-0000-0000-000000000002",
+      "package_id": "7b2e5f3a-0000-0000-0000-000000000001",
+      "country": "United Kingdom",
+      "city": "Cardiff",
+      "country_code": "GB",
+      "flag": "🇬🇧",
+      "visit_date": "2026-07-07",
+      "notes": "Placeholder",
+      "lat": 51.4816,
+      "long": -3.1791,
+      "map_url": "https://maps.google.com/?q=Cardiff+Wales",
+      "website_url": "https://www.visitwales.com/destinations/cities/cardiff"
+    },
+    {
+      "id": "place-pramod-belfast",
+      "traveler_id": "7b2e5f3a-0000-0000-0000-000000000002",
+      "package_id": "7b2e5f3a-0000-0000-0000-000000000001",
+      "country": "United Kingdom",
+      "city": "Belfast",
+      "country_code": "GB",
+      "flag": "🇬🇧",
+      "visit_date": "2026-07-10",
+      "notes": "Placeholder",
+      "lat": 54.5973,
+      "long": -5.9301,
+      "map_url": "https://maps.google.com/?q=Belfast+Northern+Ireland",
+      "website_url": "https://www.visitbelfast.com"
+    },
+    {
+      "id": "place-shivani-zurich",
+      "traveler_id": "7b2e5f3a-0000-0000-0000-000000000003",
+      "package_id": "7b2e5f3a-0000-0000-0000-000000000001",
+      "country": "Switzerland",
+      "city": "Zurich",
+      "country_code": "CH",
+      "flag": "🇨🇭",
+      "visit_date": "2026-05-19",
+      "notes": "Transit — arrived ZRH 08:40 on LH 5762",
+      "lat": 47.3769,
+      "long": 8.5417,
+      "map_url": "https://maps.google.com/?q=Zurich+Switzerland",
+      "website_url": "https://www.zuerich.com/en"
+    },
+    {
+      "id": "place-shivani-bern",
+      "traveler_id": "7b2e5f3a-0000-0000-0000-000000000003",
+      "package_id": "7b2e5f3a-0000-0000-0000-000000000001",
+      "country": "Switzerland",
+      "city": "Bern",
+      "country_code": "CH",
+      "flag": "🇨🇭",
+      "visit_date": "2026-05-19",
+      "notes": "Hotel Savoy Bern (19–23 May)",
+      "lat": 46.9481,
+      "long": 7.4474,
+      "map_url": "https://maps.google.com/?q=Bern+Switzerland",
+      "website_url": "https://www.bern.com/en"
+    },
+    {
+      "id": "place-shivani-geneva",
+      "traveler_id": "7b2e5f3a-0000-0000-0000-000000000003",
+      "package_id": "7b2e5f3a-0000-0000-0000-000000000001",
+      "country": "Switzerland",
+      "city": "Geneva",
+      "country_code": "CH",
+      "flag": "🇨🇭",
+      "visit_date": "2026-05-23",
+      "notes": "Adina Apartment Hotel Geneva (23–25 May)",
+      "lat": 46.2044,
+      "long": 6.1432,
+      "map_url": "https://maps.google.com/?q=Geneva+Switzerland",
+      "website_url": "https://www.geneve.com/en"
+    },
+    {
+      "id": "place-shivani-sachseln",
+      "traveler_id": "7b2e5f3a-0000-0000-0000-000000000003",
+      "package_id": "7b2e5f3a-0000-0000-0000-000000000001",
+      "country": "Switzerland",
+      "city": "Sachseln",
+      "country_code": "CH",
+      "flag": "🇨🇭",
+      "visit_date": "2026-05-25",
+      "notes": "Hotel Kreuz, Sachseln / Lucerne area (25–27 May)",
+      "lat": 46.87,
+      "long": 8.212,
+      "map_url": "https://maps.google.com/?q=Sachseln+Switzerland",
+      "website_url": "https://www.sachseln.ch"
+    },
+    {
+      "id": "place-shivani-innsbruck",
+      "traveler_id": "7b2e5f3a-0000-0000-0000-000000000003",
+      "package_id": "7b2e5f3a-0000-0000-0000-000000000001",
+      "country": "Austria",
+      "city": "Innsbruck",
+      "country_code": "AT",
+      "flag": "🇦🇹",
+      "visit_date": "2026-05-27",
+      "notes": "Adlers Hotel (27–29 May)",
+      "lat": 47.2682,
+      "long": 11.3947,
+      "map_url": "https://maps.google.com/?q=Innsbruck+Austria",
+      "website_url": "https://www.innsbruck.info/en"
+    },
+    {
+      "id": "place-shivani-seefeld",
+      "traveler_id": "7b2e5f3a-0000-0000-0000-000000000003",
+      "package_id": "7b2e5f3a-0000-0000-0000-000000000001",
+      "country": "Austria",
+      "city": "Seefeld in Tirol",
+      "country_code": "AT",
+      "flag": "🇦🇹",
+      "visit_date": "2026-05-29",
+      "notes": "Seefelds Bed & Breakfast (29 May – 1 Jun)",
+      "lat": 47.3293,
+      "long": 11.1859,
+      "map_url": "https://maps.google.com/?q=Seefeld+in+Tirol+Austria",
+      "website_url": "https://www.seefeld.com/en"
+    },
+    {
+      "id": "place-shivani-bolzano",
+      "traveler_id": "7b2e5f3a-0000-0000-0000-000000000003",
+      "package_id": "7b2e5f3a-0000-0000-0000-000000000001",
+      "country": "Italy",
+      "city": "Bolzano",
+      "country_code": "IT",
+      "flag": "🇮🇹",
+      "visit_date": "2026-06-01",
+      "notes": "Eisenhut Boutique Hotel (1-4 Jun)",
+      "lat": 46.4985,
+      "long": 11.3548,
+      "map_url": "https://maps.google.com/?q=Bolzano+Bozen+Italy",
+      "website_url": "https://www.bolzano-bozen.it"
+    },
+    {
+      "id": "place-shivani-gardone",
+      "traveler_id": "7b2e5f3a-0000-0000-0000-000000000003",
+      "package_id": "7b2e5f3a-0000-0000-0000-000000000001",
+      "country": "Italy",
+      "city": "Gardone Riviera",
+      "country_code": "IT",
+      "flag": "🇮🇹",
+      "visit_date": "2026-06-04",
+      "notes": "Hotel Savoy Palace (4-7 Jun)",
+      "lat": 45.6209,
+      "long": 10.5664,
+      "map_url": "https://maps.google.com/?q=Gardone+Riviera+Italy",
+      "website_url": "https://www.gardoneriviera.eu"
+    },
+    {
+      "id": "place-shivani-london",
+      "traveler_id": "7b2e5f3a-0000-0000-0000-000000000003",
+      "package_id": "7b2e5f3a-0000-0000-0000-000000000001",
+      "country": "United Kingdom",
+      "city": "London",
+      "country_code": "GB",
+      "flag": "GB",
+      "visit_date": "2026-06-15",
+      "notes": "London (15 Jun – 15 Jul). Arrived by Eurostar 9133, St Pancras 13:57.",
+      "lat": 51.5074,
+      "long": -0.1278,
+      "map_url": "https://maps.google.com/?q=London+United+Kingdom",
+      "website_url": "https://www.visitlondon.com"
+    },
+    {
+      "id": "place-pramod-milan",
+      "traveler_id": "7b2e5f3a-0000-0000-0000-000000000002",
+      "package_id": "7b2e5f3a-0000-0000-0000-000000000001",
+      "country": "Italy",
+      "city": "Milan",
+      "country_code": "IT",
+      "flag": "🇮🇹",
+      "visit_date": "2026-06-07",
+      "notes": "Milano Centrale transit/stay (7–9 Jun). EC 14 departs Milano Centrale 09:10 on 9 Jun.",
+      "lat": 45.4654,
+      "long": 9.1859,
+      "map_url": "https://maps.google.com/?q=Milan+Italy",
+      "website_url": "https://www.turismo.milano.it/en"
+    },
+    {
+      "id": "place-pramod-brussels",
+      "traveler_id": "7b2e5f3a-0000-0000-0000-000000000002",
+      "package_id": "7b2e5f3a-0000-0000-0000-000000000001",
+      "country": "Belgium",
+      "city": "Brussels",
+      "country_code": "BE",
+      "flag": "🇧🇪",
+      "visit_date": "2026-06-15",
+      "notes": "Transit — Brussels Midi. Eurostar 9426 arrives 10:35, Eurostar 9133 departs 12:56.",
+      "lat": 50.8503,
+      "long": 4.3517,
+      "map_url": "https://maps.google.com/?q=Brussels+Belgium",
+      "website_url": "https://visit.brussels/en"
+    },
+    {
+      "id": "place-pramod-dusseldorf-de",
+      "traveler_id": "7b2e5f3a-0000-0000-0000-000000000002",
+      "package_id": "7b2e5f3a-0000-0000-0000-000000000001",
+      "country": "Germany",
+      "city": "Düsseldorf",
+      "country_code": "DE",
+      "flag": "🇩🇪",
+      "visit_date": "2026-06-09",
+      "notes": "Düsseldorf stay (9–15 Jun). Arrived by ICE 104 from ZRH HB (19:32). Placeholder hotel.",
+      "lat": 51.2217,
+      "long": 6.7762,
+      "map_url": "https://maps.google.com/?q=Düsseldorf+Germany",
+      "website_url": "https://www.duesseldorf-tourismus.de/en"
+    },
+    {
+      "id": "place-shivani-milan",
+      "traveler_id": "7b2e5f3a-0000-0000-0000-000000000003",
+      "package_id": "7b2e5f3a-0000-0000-0000-000000000001",
+      "country": "Italy",
+      "city": "Milan",
+      "country_code": "IT",
+      "flag": "🇮🇹",
+      "visit_date": "2026-06-07",
+      "notes": "Milano Centrale transit/stay (7–9 Jun). EC 14 departs Milano Centrale 09:10 on 9 Jun.",
+      "lat": 45.4654,
+      "long": 9.1859,
+      "map_url": "https://maps.google.com/?q=Milan+Italy",
+      "website_url": "https://www.turismo.milano.it/en"
+    },
+    {
+      "id": "place-shivani-brussels",
+      "traveler_id": "7b2e5f3a-0000-0000-0000-000000000003",
+      "package_id": "7b2e5f3a-0000-0000-0000-000000000001",
+      "country": "Belgium",
+      "city": "Brussels",
+      "country_code": "BE",
+      "flag": "🇧🇪",
+      "visit_date": "2026-06-15",
+      "notes": "Transit — Brussels Midi. Eurostar 9426 arrives 10:35, Eurostar 9133 departs 12:56.",
+      "lat": 50.8503,
+      "long": 4.3517,
+      "map_url": "https://maps.google.com/?q=Brussels+Belgium",
+      "website_url": "https://visit.brussels/en"
+    },
+    {
+      "id": "place-shivani-dusseldorf",
+      "traveler_id": "7b2e5f3a-0000-0000-0000-000000000003",
+      "package_id": "7b2e5f3a-0000-0000-0000-000000000001",
+      "country": "Germany",
+      "city": "Düsseldorf",
+      "country_code": "DE",
+      "flag": "🇩🇪",
+      "visit_date": "2026-06-09",
+      "notes": "Düsseldorf stay (9–15 Jun). Arrived by ICE 104 from ZRH HB (19:32). Placeholder hotel.",
+      "lat": 51.2217,
+      "long": 6.7762,
+      "map_url": "https://maps.google.com/?q=Düsseldorf+Germany",
+      "website_url": "https://www.duesseldorf-tourismus.de/en"
+    }
+  ]
+}
+  </script>
+
+  <script>
+    (() => {
+      const rawData = JSON.parse(document.getElementById('humraahi-data').textContent);
+      const packageData = rawData.packages[0];
+      const state = { tab: 'upcoming', query: '', type: 'all', sort: 'chronology', openIds: new Set() };
+      const typeOrder = { flight: 1, train: 2, hotel: 3, misc: 4 };
+      const icons = { flight: '✈️', train: '🚆', hotel: '🏨', misc: '✨' };
+      const labels = { flight: 'Flight', train: 'Train', hotel: 'Hotel', misc: 'Misc' };
+
+      const $ = (id) => document.getElementById(id);
+      const eventList = $('eventList');
+      const emptyState = $('emptyState');
+      const resultCount = $('resultCount');
+      const todayKey = localDateKey(new Date());
+
+      $('tripSubtitle').textContent = packageData.subtitle;
+      $('heroMeta').innerHTML = [
+        `${formatRange(packageData.start_date, packageData.end_date)}`,
+        `${packageData.destinations.length} destinations`,
+        `${rawData.travelers.map(t => `${t.first_name} ${t.last_name}`).join(' & ')}`,
+        `Source: ${rawData.app} data export`
+      ].map(item => `<span class="meta-pill">${escapeHtml(item)}</span>`).join('');
+
+      const events = buildEvents(packageData);
+      render();
+
+      document.querySelectorAll('.tab').forEach(button => {
+        button.addEventListener('click', () => {
+          state.tab = button.dataset.tab;
+          document.querySelectorAll('.tab').forEach(tab => tab.setAttribute('aria-selected', String(tab === button)));
+          render();
+        });
+      });
+
+      $('searchInput').addEventListener('input', (event) => { state.query = event.target.value.trim().toLowerCase(); render(); });
+      $('typeFilter').addEventListener('change', (event) => { state.type = event.target.value; render(); });
+      $('sortSelect').addEventListener('change', (event) => { state.sort = event.target.value; render(); });
+      $('expandAll').addEventListener('click', () => { currentEvents().forEach(event => state.openIds.add(event.id)); render(); });
+      $('collapseAll').addEventListener('click', () => { state.openIds.clear(); render(); });
+      $('toTop').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+      function buildEvents(pkg) {
+        const transitEvents = pkg.transits.map(transit => {
+          const isFlight = transit.mode.toLowerCase().includes('flight');
+          const kind = isFlight ? 'flight' : 'train';
+          const depart = parseDate(transit.departure_time);
+          const arrive = parseDate(transit.arrival_time);
+          const stopText = (transit.stops || []).map(stop => `${stop.city}${stop.terminal ? ` · ${stop.terminal}` : ''}${stop.layover ? ` · ${stop.layover}` : ''}`).join(' | ');
+          return {
+            id: transit.id,
+            kind,
+            start: transit.departure_time,
+            end: transit.arrival_time,
+            dateKey: dateKey(transit.departure_time),
+            title: `${formatDateShort(depart)} · ${transit.from_city} → ${transit.to_city} · ${transit.operator_name}`,
+            subtitle: compact([
+              `${formatTime(depart)} → ${formatTime(arrive)}`,
+              transit.from_terminal && transit.to_terminal ? `${transit.from_terminal} → ${transit.to_terminal}` : '',
+              transit.booking_ref ? `Ref ${transit.booking_ref}` : '',
+              transit.platform
+            ]),
+            search: JSON.stringify(transit).toLowerCase(),
+            details: compactDetails([
+              ['Route', `${transit.from_city} → ${transit.to_city}`],
+              ['Departure', `${formatDateLong(depart)} at ${formatTime(depart)} · ${transit.from_terminal || transit.from_city}`],
+              ['Arrival', `${formatDateLong(arrive)} at ${formatTime(arrive)} · ${transit.to_terminal || transit.to_city}`],
+              ['Operator', transit.operator_name],
+              ['Duration / Distance', compact([transit.duration, transit.distance]).join(' · ')],
+              ['Booking / Platform', compact([transit.booking_ref && `Ref ${transit.booking_ref}`, transit.pnr && `PNR ${transit.pnr}`, transit.dnr && `DNR ${transit.dnr}`, transit.platform]).join(' · ')],
+              ['Seats / Tickets', transit.seat_info],
+              ['Stops', stopText],
+              ['Visa boundary', transit.is_visa_boundary ? (transit.boundary_label || 'Yes') : 'No'],
+              ['Notes', transit.notes],
+              ['Links', renderLinks(collectLinks(transit, [
+                ['from_map_url', 'From map', '🗺️'],
+                ['from_website_url', 'From URL', '🔗'],
+                ['to_map_url', 'To map', '🗺️'],
+                ['to_website_url', 'To URL', '🔗']
+              ]))]
+            ]),
+            links: collectLinks(transit, [
+              ['from_map_url', 'From map', '🗺️'],
+              ['from_website_url', 'From URL', '🔗'],
+              ['to_map_url', 'To map', '🗺️'],
+              ['to_website_url', 'To URL', '🔗']
+            ])
+          };
+        });
+
+        const stayEvents = pkg.stays.map(stay => {
+          const start = `${stay.check_in}T${stay.check_in_time || '15:00'}:00`;
+          const end = `${stay.check_out}T${stay.check_out_time || '11:00'}:00`;
+          const nights = dayDiff(stay.check_in, stay.check_out);
+          return {
+            id: stay.id,
+            kind: 'hotel',
+            start,
+            end,
+            dateKey: stay.check_in,
+            title: `${formatDateShort(parseDate(stay.check_in))} · Check in: ${stay.property_name} · ${stay.city}`,
+            subtitle: compact([
+              `${stay.check_in_time || 'Check-in time TBC'}${stay.check_out_time ? ` · checkout ${stay.check_out_time}` : ''}`,
+              `${nights} night${nights === 1 ? '' : 's'}`,
+              stay.platform,
+              stay.booking_ref ? `Ref ${stay.booking_ref}` : ''
+            ]),
+            search: JSON.stringify(stay).toLowerCase(),
+            details: compactDetails([
+              ['Stay', `${stay.property_name} · ${stay.stay_type}`],
+              ['Dates', `${formatDateLong(parseDate(stay.check_in))} → ${formatDateLong(parseDate(stay.check_out))} · ${nights} night${nights === 1 ? '' : 's'}`],
+              ['Room', stay.room],
+              ['Booking / Confirmation', compact([stay.booking_ref && `Ref ${stay.booking_ref}`, stay.confirmation_no && `Confirmation ${stay.confirmation_no}`, stay.platform]).join(' · ')],
+              ['Address', stay.address],
+              ['Phone', stay.phone],
+              ['Visa zone', stay.visa_zone],
+              ['Notes', stay.notes],
+              ['Links', renderLinks(collectLinks(stay, [
+                ['map_url', 'Google map', '🗺️'],
+                ['website_url', 'Website URL', '🔗']
+              ]))]
+            ]),
+            links: collectLinks(stay, [
+              ['map_url', 'Google map', '🗺️'],
+              ['website_url', 'Website URL', '🔗']
+            ])
+          };
+        });
+
+        const specialEvents = (pkg.special_bookings || []).map(item => ({
+          id: item.id,
+          kind: 'misc',
+          start: `${item.valid_from}T09:00:00`,
+          end: `${item.valid_until}T23:59:00`,
+          dateKey: item.valid_from,
+          title: `${formatDateShort(parseDate(item.valid_from))} · ${item.name}`,
+          subtitle: compact([item.sub_type || item.type, item.days, item.pax]),
+          search: JSON.stringify(item).toLowerCase(),
+          details: compactDetails([
+            ['Type', compact([item.type, item.sub_type]).join(' · ')],
+            ['Validity', `${formatDateLong(parseDate(item.valid_from))} → ${formatDateLong(parseDate(item.valid_until))}`],
+            ['Passengers', item.pax],
+            ['Nationality', item.nationality],
+            ['Notes', item.notes],
+            ['Links', renderLinks(collectLinks(item, [
+              ['map_url', 'Google map', '🗺️'],
+              ['website_url', 'Website URL', '🔗'],
+              ['url', 'URL', '🔗']
+            ]))]
+          ]),
+          links: collectLinks(item, [
+            ['map_url', 'Google map', '🗺️'],
+            ['website_url', 'Website URL', '🔗'],
+            ['url', 'URL', '🔗']
+          ])
+        }));
+
+        const visaEvents = (pkg.visas || []).map(visa => {
+          const traveler = rawData.travelers.find(t => t.id === visa.traveler_id);
+          const travelerName = traveler ? `${traveler.first_name} ${traveler.last_name}` : 'Traveler';
+          return {
+            id: visa.id,
+            kind: 'misc',
+            start: `${visa.valid_from}T08:00:00`,
+            end: `${visa.valid_until}T23:59:00`,
+            dateKey: visa.valid_from,
+            title: `${formatDateShort(parseDate(visa.valid_from))} · ${visa.type} visa valid · ${travelerName}`,
+            subtitle: compact([visa.issuing_country, visa.entry_type, visa.visa_number]),
+            search: JSON.stringify(visa).toLowerCase() + ' ' + travelerName.toLowerCase(),
+            details: compactDetails([
+              ['Traveler', travelerName],
+              ['Visa', `${visa.type} · Issued by ${visa.issuing_country}`],
+              ['Validity', `${formatDateLong(parseDate(visa.valid_from))} → ${formatDateLong(parseDate(visa.valid_until))}`],
+              ['Countries', (visa.countries || []).join(', ')],
+              ['Entry / Stay', compact([visa.entry_type, visa.max_stay && `${visa.max_stay} days`]).join(' · ')],
+              ['Visa number', visa.visa_number],
+              ['Notes', visa.notes]
+            ])
+          };
+        });
+
+        return [...visaEvents, ...specialEvents, ...transitEvents, ...stayEvents]
+          .sort((a, b) => new Date(a.start) - new Date(b.start) || typeOrder[a.kind] - typeOrder[b.kind]);
+      }
+
+      function currentEvents() {
+        let list = events.filter(event => {
+          const matchesTab = state.tab === 'all'
+            || (state.tab === 'today' && event.dateKey === todayKey)
+            || (state.tab === 'upcoming' && event.dateKey >= todayKey);
+          const matchesType = state.type === 'all' || event.kind === state.type;
+          const matchesQuery = !state.query || `${event.title} ${event.subtitle.join(' ')} ${event.search}`.toLowerCase().includes(state.query);
+          return matchesTab && matchesType && matchesQuery;
+        });
+
+        if (state.sort === 'reverse') list = list.slice().sort((a, b) => new Date(b.start) - new Date(a.start));
+        if (state.sort === 'type') list = list.slice().sort((a, b) => typeOrder[a.kind] - typeOrder[b.kind] || new Date(a.start) - new Date(b.start));
+        return list;
+      }
+
+      function render() {
+        const list = currentEvents();
+        eventList.innerHTML = list.map(renderCard).join('');
+        emptyState.style.display = list.length ? 'none' : 'block';
+        resultCount.textContent = `${list.length} event${list.length === 1 ? '' : 's'} shown · Today is ${formatDateLong(parseDate(todayKey))}`;
+        eventList.querySelectorAll('.card-button').forEach(button => {
+          button.addEventListener('click', () => {
+            const id = button.closest('.event-card').dataset.id;
+            state.openIds.has(id) ? state.openIds.delete(id) : state.openIds.add(id);
+            render();
+          });
+        });
+      }
+
+      function renderCard(event) {
+        const date = parseDate(event.start);
+        const isOpen = state.openIds.has(event.id);
+        return `
+          <article class="event-card ${event.kind}${isOpen ? ' open' : ''}" data-id="${escapeHtml(event.id)}">
+            <button class="card-button" type="button" aria-expanded="${isOpen}">
+              <div class="date-tile" aria-hidden="true">
+                <span class="month">${formatMonth(date)}</span>
+                <span class="day">${formatDay(date)}</span>
+                <span class="weekday">${formatWeekday(date)}</span>
+              </div>
+              <div class="card-main">
+                <div class="top-line">
+                  <span class="kind-chip">${icons[event.kind]} ${labels[event.kind]}</span>
+                  <span class="tiny-chip">${formatDateLong(date)}</span>
+                </div>
+                <h2 class="card-title">${escapeHtml(event.title)}</h2>
+                <div class="subtitle">${event.subtitle.map(item => `<span>${escapeHtml(item)}</span>`).join('')}</div>
+              </div>
+              <span class="chevron" aria-hidden="true">⌄</span>
+            </button>
+            ${event.links && event.links.length ? `<div class="card-links" aria-label="Links for ${escapeHtml(event.title)}">${renderLinks(event.links, 'card-link')}</div>` : ''}
+            <div class="details">
+              <div class="details-grid">
+                ${event.details.map(([label, value]) => `<div class="detail-box ${String(value).length > 95 ? 'wide' : ''}"><span class="detail-label">${escapeHtml(label)}</span><div class="detail-value">${label === 'Links' ? value : escapeHtml(value)}</div></div>`).join('')}
+              </div>
+            </div>
+          </article>`;
+      }
+
+      function compact(values) { return values.filter(value => value !== undefined && value !== null && String(value).trim() !== ''); }
+      function compactDetails(rows) { return rows.filter(([, value]) => value !== undefined && value !== null && String(value).trim() !== ''); }
+      function parseDate(value) { return new Date(String(value).includes('T') ? value : `${value}T00:00:00`); }
+      function dateKey(value) { return String(value).slice(0, 10); }
+      function localDateKey(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+      }
+      function dayDiff(start, end) { return Math.max(1, Math.round((parseDate(end) - parseDate(start)) / 86400000)); }
+      function formatDateShort(date) { return new Intl.DateTimeFormat(undefined, { month: 'short', day: 'numeric' }).format(date); }
+      function formatDateLong(date) { return new Intl.DateTimeFormat(undefined, { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }).format(date); }
+      function formatRange(start, end) { return `${formatDateLong(parseDate(start))} → ${formatDateLong(parseDate(end))}`; }
+      function formatTime(date) { return new Intl.DateTimeFormat(undefined, { hour: '2-digit', minute: '2-digit' }).format(date); }
+      function formatMonth(date) { return new Intl.DateTimeFormat(undefined, { month: 'short' }).format(date); }
+      function formatDay(date) { return new Intl.DateTimeFormat(undefined, { day: '2-digit' }).format(date); }
+      function formatWeekday(date) { return new Intl.DateTimeFormat(undefined, { weekday: 'short' }).format(date); }
+      function escapeHtml(value) {
+        return String(value).replace(/[&<>"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[char]));
+      }
+      function safeHref(value) {
+        const href = String(value || '').trim();
+        return /^https?:\/\//i.test(href) ? href : '#';
+      }
+      function collectLinks(source, mappings) {
+        return mappings
+          .map(([key, label, icon]) => ({ href: source[key], label, icon }))
+          .filter(link => link.href && safeHref(link.href) !== '#');
+      }
+      function renderLinks(links, className = '') {
+        return links.map(link => {
+          const classes = className ? ` class="${escapeHtml(className)}"` : '';
+          const icon = link.icon ? `${escapeHtml(link.icon)} ` : '';
+          return `<a${classes} href="${escapeHtml(safeHref(link.href))}" target="_blank" rel="noopener noreferrer">${icon}${escapeHtml(link.label)}</a>`;
+        }).join(' · ');
+      }
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,1475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Dr. Dhaka — Grand European Journey 2026</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  :root{
+    --navy:#0f2744;--navy2:#1a3a5c;--gold:#C9A84C;--gold-light:#F0D48A;
+    --flight-bg:#EBF4FF;--flight-border:#2563EB;--flight-text:#1E40AF;
+    --train-bg:#ECFDF5;--train-border:#059669;--train-text:#065F46;
+    --hotel-bg:#FFFBEB;--hotel-border:#D97706;--hotel-text:#92400E;
+    --misc-bg:#F5F3FF;--misc-border:#7C3AED;--misc-text:#4C1D95;
+    --page-bg:#F0F4F8;--card-shadow:0 2px 8px rgba(0,0,0,.08);
+    --radius:12px;--transition:.32s cubic-bezier(.4,0,.2,1);
+  }
+  html{scroll-behavior:smooth;}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--page-bg);color:#1a202c;min-height:100vh;}
+
+  /* ── HEADER ─────────────────────────────────────────────────── */
+  .header{
+    background:linear-gradient(145deg,var(--navy) 0%,#162d4a 60%,#1a3f5e 100%);
+    color:#fff;padding:20px 16px 16px;position:relative;overflow:hidden;
+  }
+  .header::after{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;
+    border-radius:50%;background:rgba(201,168,76,.08);pointer-events:none;}
+  .header-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;}
+  .header-badge{background:var(--gold);color:var(--navy);font-size:10px;font-weight:700;
+    letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:20px;white-space:nowrap;margin-top:4px;}
+  .header-title{font-size:22px;font-weight:700;line-height:1.2;color:#fff;}
+  .header-subtitle{font-size:12px;color:#94b8d8;margin-top:4px;line-height:1.5;}
+  .header-meta{display:flex;gap:16px;margin-top:14px;flex-wrap:wrap;}
+  .header-meta-item{display:flex;flex-direction:column;gap:2px;}
+  .header-meta-label{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:#7aaccf;}
+  .header-meta-value{font-size:13px;font-weight:600;color:#e2ecf6;}
+  .journey-strip{display:flex;align-items:center;gap:4px;margin-top:14px;
+    overflow-x:auto;padding-bottom:4px;scrollbar-width:none;}
+  .journey-strip::-webkit-scrollbar{display:none;}
+  .journey-flag{font-size:18px;line-height:1;}
+  .journey-arrow{color:#4a7fa8;font-size:10px;}
+  .journey-label{font-size:9px;color:#7aaccf;text-align:center;margin-top:1px;}
+  .journey-stop{display:flex;flex-direction:column;align-items:center;gap:1px;flex-shrink:0;}
+
+  /* ── PROGRESS BAR ───────────────────────────────────────────── */
+  .progress-bar-wrap{background:rgba(255,255,255,.07);border-radius:4px;height:6px;margin-top:14px;overflow:hidden;}
+  .progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--gold),#e8c66a);border-radius:4px;transition:width 1s ease;}
+
+  /* ── STICKY CONTROLS ────────────────────────────────────────── */
+  .sticky-controls{position:sticky;top:0;z-index:100;background:var(--page-bg);
+    box-shadow:0 2px 12px rgba(0,0,0,.08);padding:0 12px;}
+  .tabs{display:flex;gap:0;border-bottom:2px solid #e2e8f0;}
+  .tab-btn{flex:1;padding:12px 8px;font-size:13px;font-weight:600;color:#64748b;
+    background:none;border:none;cursor:pointer;border-bottom:3px solid transparent;
+    margin-bottom:-2px;transition:color .2s,border-color .2s;letter-spacing:.01em;}
+  .tab-btn.active{color:var(--navy2);border-bottom-color:var(--navy2);}
+  .tab-btn .count{font-size:10px;font-weight:700;background:#e2e8f0;color:#64748b;
+    padding:1px 5px;border-radius:10px;margin-left:4px;}
+  .tab-btn.active .count{background:var(--navy2);color:#fff;}
+  .controls-row{display:flex;gap:8px;padding:10px 0;flex-wrap:wrap;align-items:center;}
+  .search-box{flex:1;min-width:160px;position:relative;}
+  .search-box input{width:100%;padding:9px 12px 9px 34px;border:1.5px solid #cbd5e1;
+    border-radius:8px;font-size:14px;background:#fff;outline:none;transition:border-color .2s;color:#1a202c;}
+  .search-box input:focus{border-color:var(--navy2);}
+  .search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:14px;color:#94a3b8;}
+  .filter-chips{display:flex;gap:6px;flex-wrap:wrap;}
+  .chip{padding:6px 11px;border-radius:20px;font-size:12px;font-weight:600;border:1.5px solid #cbd5e1;
+    background:#fff;cursor:pointer;transition:all .18s;color:#64748b;white-space:nowrap;}
+  .chip:hover{border-color:#94a3b8;}
+  .chip.active-all{background:var(--navy2);border-color:var(--navy2);color:#fff;}
+  .chip.active-flight{background:var(--flight-bg);border-color:var(--flight-border);color:var(--flight-text);}
+  .chip.active-train{background:var(--train-bg);border-color:var(--train-border);color:var(--train-text);}
+  .chip.active-hotel{background:var(--hotel-bg);border-color:var(--hotel-border);color:var(--hotel-text);}
+  .chip.active-misc{background:var(--misc-bg);border-color:var(--misc-border);color:var(--misc-text);}
+  .sort-btn{padding:7px 11px;border-radius:8px;font-size:12px;font-weight:600;
+    border:1.5px solid #cbd5e1;background:#fff;cursor:pointer;color:#64748b;
+    display:flex;align-items:center;gap:4px;white-space:nowrap;}
+  .sort-btn.active{border-color:var(--navy2);color:var(--navy2);}
+
+  /* ── MAIN CONTENT ───────────────────────────────────────────── */
+  .main{padding:10px 10px 40px;}
+  .date-group-header{font-size:11px;font-weight:700;text-transform:uppercase;
+    letter-spacing:.08em;color:#64748b;padding:14px 6px 6px;display:flex;align-items:center;gap:8px;}
+  .date-group-header::after{content:'';flex:1;height:1px;background:#e2e8f0;}
+  .no-results{display:none;text-align:center;padding:60px 20px;color:#94a3b8;}
+  .no-results-icon{font-size:48px;margin-bottom:12px;}
+  .no-results-text{font-size:16px;font-weight:600;}
+  .no-results-sub{font-size:13px;margin-top:6px;}
+
+  /* ── CARDS ──────────────────────────────────────────────────── */
+  .card{background:#fff;border-radius:var(--radius);box-shadow:var(--card-shadow);
+    margin-bottom:10px;overflow:hidden;transition:box-shadow .2s;border-left:4px solid transparent;}
+  .card:hover{box-shadow:0 4px 16px rgba(0,0,0,.12);}
+  .card.flight{border-left-color:var(--flight-border);background:var(--flight-bg);}
+  .card.train{border-left-color:var(--train-border);background:var(--train-bg);}
+  .card.hotel{border-left-color:var(--hotel-border);background:var(--hotel-bg);}
+  .card.misc{border-left-color:var(--misc-border);background:var(--misc-bg);}
+
+  .card-header{padding:13px 14px;cursor:pointer;display:flex;gap:12px;align-items:flex-start;
+    user-select:none;-webkit-tap-highlight-color:transparent;}
+  .card-icon{font-size:22px;flex-shrink:0;margin-top:2px;line-height:1;}
+  .card-main{flex:1;min-width:0;}
+  .card-type-row{display:flex;align-items:center;gap:7px;margin-bottom:4px;flex-wrap:wrap;}
+  .card-badge{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    padding:2px 7px;border-radius:20px;}
+  .flight .card-badge{background:var(--flight-border);color:#fff;}
+  .train .card-badge{background:var(--train-border);color:#fff;}
+  .hotel .card-badge{background:var(--hotel-border);color:#fff;}
+  .misc .card-badge{background:var(--misc-border);color:#fff;}
+  .card-flags{font-size:13px;}
+  .card-date-badge{font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;
+    background:rgba(255,255,255,.7);color:#475569;margin-left:auto;}
+  .card-title{font-size:15px;font-weight:700;color:#0f172a;line-height:1.3;}
+  .card-subtitle{font-size:12px;color:#64748b;margin-top:3px;line-height:1.4;}
+  .card-key-info{display:flex;gap:8px;margin-top:5px;flex-wrap:wrap;}
+  .card-key-item{font-size:11px;padding:2px 7px;border-radius:5px;font-weight:600;
+    background:rgba(255,255,255,.65);}
+  .flight .card-key-item{color:var(--flight-text);}
+  .train .card-key-item{color:var(--train-text);}
+  .hotel .card-key-item{color:var(--hotel-text);}
+  .misc .card-key-item{color:var(--misc-text);}
+  .card-toggle{font-size:13px;color:#94a3b8;flex-shrink:0;margin-top:3px;
+    transition:transform var(--transition);padding:4px;}
+  .card.expanded .card-toggle{transform:rotate(180deg);}
+
+  /* ── CARD BODY ──────────────────────────────────────────────── */
+  .card-body{max-height:0;overflow:hidden;transition:max-height var(--transition);}
+  .card.expanded .card-body{max-height:2000px;}
+  .card-body-inner{padding:0 14px 16px;border-top:1px solid rgba(0,0,0,.06);}
+  .detail-section{margin-top:12px;}
+  .detail-section-title{font-size:10px;font-weight:700;text-transform:uppercase;
+    letter-spacing:.08em;color:#94a3b8;margin-bottom:6px;}
+  .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+  @media(max-width:480px){.detail-grid{grid-template-columns:1fr;}}
+  .detail-item{background:rgba(255,255,255,.7);border-radius:7px;padding:7px 9px;}
+  .detail-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#94a3b8;}
+  .detail-value{font-size:12px;color:#0f172a;margin-top:2px;line-height:1.4;font-weight:500;}
+  .detail-item.full-width{grid-column:1/-1;}
+  .notes-box{background:rgba(255,255,255,.6);border-radius:8px;padding:9px 11px;
+    font-size:12px;color:#475569;font-style:italic;line-height:1.6;margin-top:10px;}
+  .visa-chip{display:inline-flex;align-items:center;gap:5px;background:rgba(239,68,68,.1);
+    color:#b91c1c;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;margin-top:8px;}
+  .stop-item{background:rgba(255,255,255,.6);border-radius:7px;padding:8px 10px;
+    margin-top:6px;display:flex;gap:10px;align-items:flex-start;}
+  .stop-icon{font-size:14px;flex-shrink:0;margin-top:1px;}
+  .stop-text{font-size:11px;color:#475569;line-height:1.5;}
+  .stop-name{font-weight:700;color:#0f172a;font-size:12px;}
+  .links-section{margin-top:12px;display:flex;flex-wrap:wrap;gap:8px;}
+  .link-btn{display:inline-flex;align-items:center;gap:5px;padding:7px 12px;
+    border-radius:8px;font-size:12px;font-weight:600;text-decoration:none;
+    background:rgba(255,255,255,.8);border:1.5px solid rgba(0,0,0,.1);
+    color:#0f172a;transition:all .18s;}
+  .link-btn:hover{background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.12);border-color:#94a3b8;}
+  .link-btn:active{transform:scale(.97);}
+  .link-map{color:var(--flight-text);}
+  .link-web{color:var(--train-text);}
+  .today-badge{display:inline-flex;align-items:center;gap:5px;background:#FEF2F2;
+    color:#DC2626;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;
+    animation:pulse-badge 2s infinite;}
+  @keyframes pulse-badge{0%,100%{opacity:1;}50%{opacity:.6;}}
+  .placeholder-notice{display:flex;align-items:center;gap:6px;background:rgba(234,179,8,.15);
+    border:1px solid rgba(234,179,8,.4);border-radius:7px;padding:7px 10px;
+    font-size:11px;color:#854d0e;font-weight:600;margin-top:8px;}
+
+  /* ── LEGEND ─────────────────────────────────────────────────── */
+  .legend{display:flex;gap:10px;flex-wrap:wrap;padding:8px 12px;background:#fff;
+    border-bottom:1px solid #e2e8f0;}
+  .legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:#64748b;font-weight:500;}
+  .legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0;}
+
+  /* ── SCROLLBAR ──────────────────────────────────────────────── */
+  ::-webkit-scrollbar{width:4px;height:4px;}
+  ::-webkit-scrollbar-track{background:transparent;}
+  ::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:4px;}
+
+  @media(min-width:640px){
+    .main{padding:12px 16px 60px;}
+    .cards-wrap{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;align-items:start;}
+    .cards-wrap .card{margin-bottom:0;}
+    .date-group-header{grid-column:1/-1;}
+    .no-results{grid-column:1/-1;}
+  }
+  @media(min-width:1024px){
+    .cards-wrap{grid-template-columns:repeat(3,1fr);}
+    .header{padding:24px 24px 18px;}
+    .sticky-controls{padding:0 20px;}
+    .main{padding:16px 24px 80px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ─────────────────────────────────────────────────── -->
+<div class="header">
+  <div class="header-top">
+    <div>
+      <div class="header-title">Grand European Journey 2026</div>
+      <div class="header-subtitle">Dr. Dhaka Family · Pramod &amp; Shivani</div>
+    </div>
+    <div class="header-badge">HumRaahi</div>
+  </div>
+  <div class="header-meta">
+    <div class="header-meta-item">
+      <span class="header-meta-label">Departs</span>
+      <span class="header-meta-value">19 May 2026</span>
+    </div>
+    <div class="header-meta-item">
+      <span class="header-meta-label">Returns</span>
+      <span class="header-meta-value">15 Jul 2026</span>
+    </div>
+    <div class="header-meta-item">
+      <span class="header-meta-label">Duration</span>
+      <span class="header-meta-value">57 Days</span>
+    </div>
+    <div class="header-meta-item">
+      <span class="header-meta-label">Countries</span>
+      <span class="header-meta-value">CH · AT · IT · DE · BE · UK</span>
+    </div>
+  </div>
+  <div class="journey-strip">
+    <div class="journey-stop"><span class="journey-flag">🇮🇳</span><span class="journey-label">Delhi</span></div>
+    <span class="journey-arrow">›</span>
+    <div class="journey-stop"><span class="journey-flag">🇨🇭</span><span class="journey-label">Swiss</span></div>
+    <span class="journey-arrow">›</span>
+    <div class="journey-stop"><span class="journey-flag">🇦🇹</span><span class="journey-label">Austria</span></div>
+    <span class="journey-arrow">›</span>
+    <div class="journey-stop"><span class="journey-flag">🇮🇹</span><span class="journey-label">Italy</span></div>
+    <span class="journey-arrow">›</span>
+    <div class="journey-stop"><span class="journey-flag">🇩🇪</span><span class="journey-label">Germany</span></div>
+    <span class="journey-arrow">›</span>
+    <div class="journey-stop"><span class="journey-flag">🇧🇪</span><span class="journey-label">Brussels</span></div>
+    <span class="journey-arrow">›</span>
+    <div class="journey-stop"><span class="journey-flag">🇬🇧</span><span class="journey-label">UK</span></div>
+    <span class="journey-arrow">›</span>
+    <div class="journey-stop"><span class="journey-flag">🇮🇳</span><span class="journey-label">Delhi</span></div>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="progressFill" style="width:0%"></div>
+  </div>
+  <div style="font-size:10px;color:#7aaccf;margin-top:4px;" id="progressLabel"></div>
+</div>
+
+<!-- ── STICKY CONTROLS ──────────────────────────────────────── -->
+<div class="sticky-controls">
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--flight-border)"></div>Flight</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--train-border)"></div>Train</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--hotel-border)"></div>Hotel / Stay</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--misc-border)"></div>Rail Pass / Misc</div>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" id="tab-today" onclick="setTab('today')">
+      Today <span class="count" id="count-today">0</span>
+    </button>
+    <button class="tab-btn" id="tab-upcoming" onclick="setTab('upcoming')">
+      Upcoming <span class="count" id="count-upcoming">0</span>
+    </button>
+    <button class="tab-btn" id="tab-all" onclick="setTab('all')">
+      All <span class="count" id="count-all">0</span>
+    </button>
+  </div>
+  <div class="controls-row">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="Search city, hotel, train…" oninput="applyFilters()">
+    </div>
+    <div class="filter-chips">
+      <button class="chip active-all" id="chip-all" onclick="setTypeFilter('all')">All</button>
+      <button class="chip" id="chip-flight" onclick="setTypeFilter('flight')">✈️ Flights</button>
+      <button class="chip" id="chip-train" onclick="setTypeFilter('train')">🚂 Trains</button>
+      <button class="chip" id="chip-hotel" onclick="setTypeFilter('hotel')">🏨 Hotels</button>
+      <button class="chip" id="chip-misc" onclick="setTypeFilter('misc')">🎫 Passes</button>
+    </div>
+    <button class="sort-btn" id="sortBtn" onclick="toggleSort()">⏱ <span id="sortLabel">Date ↑</span></button>
+  </div>
+</div>
+
+<!-- ── MAIN CONTENT ──────────────────────────────────────────── -->
+<div class="main">
+  <div class="cards-wrap" id="cardsWrap"></div>
+  <div class="no-results" id="noResults">
+    <div class="no-results-icon">🗺️</div>
+    <div class="no-results-text">No events found</div>
+    <div class="no-results-sub">Try a different search or filter</div>
+  </div>
+</div>
+
+<script>
+// ─────────────────────────────────────────────────────────────────
+// DATA
+// ─────────────────────────────────────────────────────────────────
+const EVENTS = [
+
+  // ══ FLIGHTS ══════════════════════════════════════════════════════
+
+  {
+    id:'flight-del-zrh',
+    type:'flight',
+    sortDate:'2026-05-19T01:45:00',
+    eventDate:'2026-05-19',
+    flags:'🇮🇳 ✈️ 🇨🇭',
+    cardTitle:'Delhi → Zurich',
+    cardSubtitle:'LH 763 + Swiss LH 5762 · via Munich · 9 h 20 m',
+    timeRange:'01:45 → 08:40',
+    ref:'PNR: F8FTIO',
+    isPlaceholder:false,
+    details:{
+      from:'Indira Gandhi Intl (DEL) · Terminal 3, New Delhi',
+      to:'Zurich International Airport (ZRH)',
+      departure:'19 May 2026 · 01:45 IST',
+      arrival:'19 May 2026 · 08:40 CET',
+      duration:'9 h 20 m · ~6,300 km',
+      operator:'Lufthansa LH 763 + Swiss LH 5762 (operated by Swiss)',
+      bookingRef:'F8FTIO',
+      platform:'MakeMyTrip — Booking ID: NN7AL75U86493651976',
+      seatInfo:'Pramod: e-tickets 48697912555 / 48697912566\nShivani: e-tickets 48697912570 / 48697912581',
+      baggage:'Cabin 8 kg (1 PC)/adult · Check-in 23 kg (1 PC)/adult',
+      fare:'Economy Basic · Total paid: ₹1,97,726',
+      visaBoundary:'🛂 Entering Schengen Zone',
+      notes:'Booked via MakeMyTrip on 11 May 2026.',
+      stops:[{city:'Munich (MUC)',terminal:'Terminal 2 (FJS)',arrives:'06:35',departs:'07:40',layover:'1 h 5 m'}],
+    },
+    links:[
+      {label:'📍 Delhi T3 on Maps',url:'https://maps.google.com/?q=Indira+Gandhi+International+Airport+Terminal+3+Delhi'},
+      {label:'🌐 Delhi Airport',url:'https://www.newdelhiairport.in'},
+      {label:'📍 Zurich Airport',url:'https://maps.google.com/?q=Zurich+Airport+ZRH'},
+      {label:'🌐 ZRH Airport',url:'https://www.zurich-airport.com'},
+    ]
+  },
+
+  {
+    id:'flight-lhr-del',
+    type:'flight',
+    sortDate:'2026-07-15T07:25:00',
+    eventDate:'2026-07-15',
+    flags:'🇬🇧 ✈️ 🇮🇳',
+    cardTitle:'London → Delhi',
+    cardSubtitle:'LH 2485 + LH 762 · via Munich · 9 h 25 m',
+    timeRange:'07:25 → 23:55',
+    ref:'PNR: F8FTIO',
+    isPlaceholder:false,
+    details:{
+      from:'London Heathrow (LHR) · Terminal 2',
+      to:'Indira Gandhi Intl (DEL) · Terminal 3',
+      departure:'15 Jul 2026 · 07:25 BST',
+      arrival:'15 Jul 2026 · 23:55 IST',
+      duration:'9 h 25 m · ~6,700 km',
+      operator:'Lufthansa LH 2485 + LH 762',
+      bookingRef:'F8FTIO',
+      platform:'MakeMyTrip — Booking ID: NN7AL75U86493651976',
+      seatInfo:'Pramod: e-tickets 48697912555 / 48697912566\nShivani: e-tickets 48697912570 / 48697912581',
+      baggage:'Cabin 8 kg (1 PC)/adult · Check-in 23 kg (1 PC)/adult',
+      fare:'Economy Basic · Same PNR as outbound',
+      visaBoundary:'🛂 Departing UK',
+      notes:'Same booking as inbound flight. PNR F8FTIO.',
+      stops:[{city:'Munich (MUC)',terminal:'Terminal 2 (FJS)',arrives:'10:20',departs:'12:55',layover:'2 h 35 m'}],
+    },
+    links:[
+      {label:'📍 Heathrow T2',url:'https://maps.google.com/?q=London+Heathrow+Airport+Terminal+2'},
+      {label:'🌐 Heathrow',url:'https://www.heathrow.com'},
+      {label:'📍 Delhi T3',url:'https://maps.google.com/?q=Indira+Gandhi+International+Airport+Terminal+3+Delhi'},
+      {label:'🌐 Delhi Airport',url:'https://www.newdelhiairport.in'},
+    ]
+  },
+
+  // ══ TRAINS ═══════════════════════════════════════════════════════
+
+  {
+    id:'train-zrh-bern',
+    type:'train',
+    sortDate:'2026-05-19T13:09:00',
+    eventDate:'2026-05-19',
+    flags:'🇨🇭',
+    cardTitle:'Zürich Airport → Bern',
+    cardSubtitle:'SBB Train 720 · Class 1 · Coach 2 · Seats 131/132',
+    timeRange:'13:09 → 14:28',
+    ref:'Ref: UQR0652V01',
+    isPlaceholder:false,
+    details:{
+      from:'Zürich Flughafen (Airport Station)',
+      to:'Bern Bahnhof (Hauptbahnhof)',
+      departure:'19 May 2026 · 13:09',
+      arrival:'19 May 2026 · 14:28',
+      duration:'1 h 19 m · ~118 km',
+      operator:'SBB CFF FFS — Train 720, Class 1',
+      bookingRef:'UQR0652V01',
+      platform:'Eurail (Seat Reservation via Eurail B.V.) · Ref 850000245664',
+      seatInfo:'Coach 2 · Seat 131 (Pramod) · Seat 132 (Shivani) · Window · Non-smoking',
+      fare:'EUR 8.00 seat reservation',
+      notes:'Train from ZRH airport station directly to Bern — no change required.',
+      stops:[],
+    },
+    links:[
+      {label:'📍 ZRH Airport Station',url:'https://maps.google.com/?q=Zürich+Flughafen+Bahnhof'},
+      {label:'🌐 SBB Airport',url:'https://www.sbb.ch/en/station-services/railway-stations/zurich-airport.html'},
+      {label:'📍 Bern HBF',url:'https://maps.google.com/?q=Bern+Hauptbahnhof'},
+      {label:'🌐 SBB Bern',url:'https://www.sbb.ch/en/station-services/railway-stations/bern.html'},
+    ]
+  },
+
+  {
+    id:'train-bern-geneva',
+    type:'train',
+    sortDate:'2026-05-23T10:00:00',
+    eventDate:'2026-05-23',
+    flags:'🇨🇭',
+    cardTitle:'Bern → Geneva',
+    cardSubtitle:'Swiss Rail IC · ~1 h 47 min · ~155 km',
+    timeRange:'10:00 → 11:47',
+    ref:'Eurail Global Pass',
+    isPlaceholder:false,
+    details:{
+      from:'Bern Hauptbahnhof',
+      to:'Genève-Cornavin',
+      departure:'23 May 2026 · 10:00',
+      arrival:'23 May 2026 · 11:47',
+      duration:'~1 h 47 min · ~155 km',
+      operator:'Swiss Rail IC',
+      bookingRef:'Eurail Global Mobile Pass Flex',
+      platform:'Eurail',
+      seatInfo:'No reservation required',
+      notes:'Covered by Eurail Global Mobile Pass Flex. Adina Apartment Hotel is in Chatelaine, Vernier — take local bus/tram from Cornavin.',
+      stops:[],
+    },
+    links:[
+      {label:'📍 Bern HBF',url:'https://maps.google.com/?q=Bern+Hauptbahnhof'},
+      {label:'🌐 SBB Bern',url:'https://www.sbb.ch/en/station-services/railway-stations/bern.html'},
+      {label:'📍 Geneva Cornavin',url:'https://maps.google.com/?q=Geneva+Cornavin+Station'},
+      {label:'🌐 SBB Geneva',url:'https://www.sbb.ch/en/station-services/railway-stations/geneva-cornavin.html'},
+    ]
+  },
+
+  {
+    id:'train-geneva-sachseln',
+    type:'train',
+    sortDate:'2026-05-25T09:00:00',
+    eventDate:'2026-05-25',
+    flags:'🇨🇭',
+    cardTitle:'Geneva → Sachseln',
+    cardSubtitle:'Swiss Rail IC/IR · ~3 h 30 min · via Bern & Lucerne',
+    timeRange:'09:00 → 12:30',
+    ref:'Eurail Global Pass',
+    isPlaceholder:false,
+    details:{
+      from:'Genève-Cornavin',
+      to:'Sachseln Bahnhof',
+      departure:'25 May 2026 · 09:00',
+      arrival:'25 May 2026 · 12:30',
+      duration:'~3 h 30 min · ~230 km',
+      operator:'Swiss Rail IC/IR',
+      bookingRef:'Eurail Global Mobile Pass Flex',
+      platform:'Eurail',
+      seatInfo:'No reservation required',
+      notes:'Covered by Eurail Global Mobile Pass Flex. Route via Bern and Lucerne/Sarnen. Hotel Kreuz is in Sachseln village.',
+      stops:[],
+    },
+    links:[
+      {label:'📍 Geneva Cornavin',url:'https://maps.google.com/?q=Geneva+Cornavin+Station'},
+      {label:'🌐 SBB Geneva',url:'https://www.sbb.ch/en/station-services/railway-stations/geneva-cornavin.html'},
+      {label:'📍 Sachseln Bahnhof',url:'https://maps.google.com/?q=Sachseln+Bahnhof+Switzerland'},
+      {label:'🌐 SBB',url:'https://www.sbb.ch'},
+    ]
+  },
+
+  {
+    id:'train-sachseln-zrh',
+    type:'train',
+    sortDate:'2026-05-27T08:00:00',
+    eventDate:'2026-05-27',
+    flags:'🇨🇭',
+    cardTitle:'Sachseln → Zürich HB',
+    cardSubtitle:'SBB · ~1 h 45 min · via Sarnen / Luzern',
+    timeRange:'08:00 → 09:45',
+    ref:'Eurail Global Pass',
+    isPlaceholder:false,
+    details:{
+      from:'Sachseln Bahnhof',
+      to:'Zürich HB (Hauptbahnhof)',
+      departure:'27 May 2026 · 08:00',
+      arrival:'27 May 2026 · 09:45',
+      duration:'~1 h 45 min · ~75 km',
+      operator:'SBB CFF FFS',
+      bookingRef:'Eurail Global Mobile Pass Flex',
+      platform:'Eurail',
+      seatInfo:'No reservation required',
+      notes:'Covered by Eurail Global Mobile Pass Flex — no seat reservation required. Route via Sarnen / Luzern to Zürich HB. Needed to connect to RJX 165 at ZRH HB (dep 10:40).',
+      stops:[],
+    },
+    links:[
+      {label:'📍 Sachseln Bahnhof',url:'https://maps.google.com/?q=Sachseln+Bahnhof+Switzerland'},
+      {label:'📍 Zürich HBF',url:'https://maps.google.com/?q=Zürich+Hauptbahnhof'},
+      {label:'🌐 SBB Zurich',url:'https://www.sbb.ch/en/station-services/railway-stations/zurich.html'},
+    ]
+  },
+
+  {
+    id:'train-zrh-innsbruck',
+    type:'train',
+    sortDate:'2026-05-27T10:40:00',
+    eventDate:'2026-05-27',
+    flags:'🇨🇭 → 🇦🇹',
+    cardTitle:'Zürich → Innsbruck',
+    cardSubtitle:'ÖBB Railjet Xpress RJX 165 · Class 1 · Coach 26 · Seats 93/94',
+    timeRange:'10:40 → 14:11',
+    ref:'DNR: QXKHJXG',
+    isPlaceholder:false,
+    details:{
+      from:'Zürich HB (Hauptbahnhof)',
+      to:'Innsbruck Hauptbahnhof (HBF)',
+      departure:'27 May 2026 · 10:40',
+      arrival:'27 May 2026 · 14:11',
+      duration:'3 h 31 m · ~295 km',
+      operator:'ÖBB Railjet Xpress — Train RJX 165, Class 1',
+      bookingRef:'DNR: QXKHJXG',
+      platform:'Eurail (via Eurail-moove)',
+      seatInfo:'Coach 26 · Seat 93 (Pramod) · Seat 94 (Shivani) · Non-smoking · Open Coach · 2 Corridor',
+      fare:'EUR 12.00 reservation · Valid with Eurail Global Pass',
+      visaBoundary:'CH → AT (both Schengen — no passport control)',
+      notes:'Reservation DNR QXKHJXG. CIV 1088. Crosses Swiss–Austrian border.',
+      stops:[],
+    },
+    links:[
+      {label:'📍 Zürich HBF',url:'https://maps.google.com/?q=Zürich+Hauptbahnhof'},
+      {label:'🌐 SBB Zurich',url:'https://www.sbb.ch/en/station-services/railway-stations/zurich.html'},
+      {label:'📍 Innsbruck HBF',url:'https://maps.google.com/?q=Innsbruck+Hauptbahnhof'},
+      {label:'🌐 ÖBB Innsbruck',url:'https://www.oebb.at/en/station-info/innsbruck-hbf'},
+    ]
+  },
+
+  {
+    id:'train-innsbruck-seefeld',
+    type:'train',
+    sortDate:'2026-05-29T10:00:00',
+    eventDate:'2026-05-29',
+    flags:'🇦🇹',
+    cardTitle:'Innsbruck → Seefeld in Tirol',
+    cardSubtitle:'ÖBB Mittenwaldbahn · ~35 min · ~18 km',
+    timeRange:'10:00 → 10:35',
+    ref:'Eurail Global Pass',
+    isPlaceholder:false,
+    details:{
+      from:'Innsbruck Hauptbahnhof',
+      to:'Seefeld in Tirol Bahnhof',
+      departure:'29 May 2026 · 10:00',
+      arrival:'29 May 2026 · 10:35',
+      duration:'~35 min · ~18 km',
+      operator:'ÖBB Mittenwaldbahn',
+      bookingRef:'Eurail Global Mobile Pass Flex',
+      platform:'Eurail',
+      seatInfo:'No reservation required',
+      notes:'Covered by Eurail Global Mobile Pass Flex.',
+      stops:[],
+    },
+    links:[
+      {label:'📍 Innsbruck HBF',url:'https://maps.google.com/?q=Innsbruck+Hauptbahnhof'},
+      {label:'🌐 ÖBB',url:'https://www.oebb.at/en/station-info/innsbruck-hbf'},
+      {label:'📍 Seefeld Bahnhof',url:'https://maps.google.com/?q=Seefeld+in+Tirol+Bahnhof'},
+    ]
+  },
+
+  {
+    id:'train-seefeld-innsbruck',
+    type:'train',
+    sortDate:'2026-06-01T10:00:00',
+    eventDate:'2026-06-01',
+    flags:'🇦🇹',
+    cardTitle:'Seefeld in Tirol → Innsbruck',
+    cardSubtitle:'ÖBB Mittenwaldbahn · ~35 min · Connect to RJ 83',
+    timeRange:'10:00 → 10:35',
+    ref:'Eurail Global Pass',
+    isPlaceholder:false,
+    details:{
+      from:'Seefeld in Tirol Bahnhof',
+      to:'Innsbruck Hauptbahnhof (HBF)',
+      departure:'1 Jun 2026 · 10:00',
+      arrival:'1 Jun 2026 · 10:35',
+      duration:'~35 min · ~18 km',
+      operator:'ÖBB Mittenwaldbahn',
+      bookingRef:'Eurail Global Mobile Pass Flex',
+      platform:'Eurail',
+      seatInfo:'No reservation required',
+      notes:'Covered by Eurail Global Mobile Pass Flex — no reservation required. Needed to connect to RJ 83 at Innsbruck HBF (dep 11:30 to Bolzano).',
+      stops:[],
+    },
+    links:[
+      {label:'📍 Seefeld Bahnhof',url:'https://maps.google.com/?q=Seefeld+in+Tirol+Bahnhof'},
+      {label:'📍 Innsbruck HBF',url:'https://maps.google.com/?q=Innsbruck+Hauptbahnhof'},
+      {label:'🌐 ÖBB',url:'https://www.oebb.at'},
+    ]
+  },
+
+  {
+    id:'train-innsbruck-bolzano',
+    type:'train',
+    sortDate:'2026-06-01T11:30:00',
+    eventDate:'2026-06-01',
+    flags:'🇦🇹 → 🇮🇹',
+    cardTitle:'Innsbruck → Bolzano',
+    cardSubtitle:'ÖBB/Trenitalia RJ 83 · Class 1 · Coach 262 · Seats 46/41',
+    timeRange:'11:30 → 13:27',
+    ref:'DNR: TWRFRMF',
+    isPlaceholder:false,
+    details:{
+      from:'Innsbruck Hauptbahnhof (HBF)',
+      to:'Bolzano/Bozen Bahnhof',
+      departure:'1 Jun 2026 · 11:30',
+      arrival:'1 Jun 2026 · 13:27',
+      duration:'1 h 57 m · ~120 km',
+      operator:'ÖBB/Trenitalia Railjet Express — Train RJ 83, Class 1',
+      bookingRef:'DNR: TWRFRMF',
+      platform:'Eurail (via SNCB/Eurail-moove)',
+      seatInfo:'Coach 262 · Seat 46 (Pramod) · Seat 41 (Shivani) · Non-smoking · Table Seat · Window',
+      fare:'EUR 30.00 (supplement included) · Carriers 1181 + 1280',
+      visaBoundary:'AT → IT · Crosses Brenner Pass (both Schengen)',
+      notes:'Ticket + Reservation DNR TWRFRMF. CIV 1088. PASS ONLY — valid in combination with Eurail Global Pass.',
+      stops:[],
+    },
+    links:[
+      {label:'📍 Innsbruck HBF',url:'https://maps.google.com/?q=Innsbruck+Hauptbahnhof'},
+      {label:'🌐 ÖBB Innsbruck',url:'https://www.oebb.at/en/station-info/innsbruck-hbf'},
+      {label:'📍 Bolzano Bahnhof',url:'https://maps.google.com/?q=Bolzano+Bozen+Bahnhof'},
+      {label:'🌐 Trenitalia',url:'https://www.trenitalia.com'},
+    ]
+  },
+
+  {
+    id:'train-bolzano-gardone',
+    type:'train',
+    sortDate:'2026-06-04T09:00:00',
+    eventDate:'2026-06-04',
+    flags:'🇮🇹',
+    cardTitle:'Bolzano → Gardone Riviera',
+    cardSubtitle:'Trenitalia · ~3 h 30 min · to Desenzano del Garda',
+    timeRange:'09:00 → 12:30',
+    ref:'Eurail Global Pass',
+    isPlaceholder:false,
+    details:{
+      from:'Bolzano/Bozen Bahnhof',
+      to:'Desenzano del Garda (nearest rail to Gardone)',
+      departure:'4 Jun 2026 · 09:00',
+      arrival:'4 Jun 2026 · 12:30',
+      duration:'~3 h 30 min · ~180 km',
+      operator:'Trenitalia',
+      bookingRef:'Eurail Global Mobile Pass Flex',
+      platform:'Eurail',
+      seatInfo:'',
+      notes:'Covered by Eurail Global Mobile Pass Flex. Train to Desenzano del Garda, then bus/taxi to Gardone Riviera (~15 km). Alternatively train to Brescia and onward bus.',
+      stops:[],
+    },
+    links:[
+      {label:'📍 Bolzano Bahnhof',url:'https://maps.google.com/?q=Bolzano+Bozen+Bahnhof'},
+      {label:'📍 Desenzano Station',url:'https://maps.google.com/?q=Desenzano+del+Garda+Station'},
+      {label:'🌐 Trenitalia',url:'https://www.trenitalia.com'},
+    ]
+  },
+
+  {
+    id:'train-gardone-milan',
+    type:'train',
+    sortDate:'2026-06-07T10:00:00',
+    eventDate:'2026-06-07',
+    flags:'🇮🇹',
+    cardTitle:'Gardone Riviera → Milan',
+    cardSubtitle:'Trenitalia · ~1 h 30 min · via Desenzano/Brescia',
+    timeRange:'10:00 → 11:30',
+    ref:'Eurail Global Pass',
+    isPlaceholder:true,
+    details:{
+      from:'Desenzano del Garda or Brescia Bahnhof',
+      to:'Milano Centrale',
+      departure:'7 Jun 2026 · 10:00',
+      arrival:'7 Jun 2026 · 11:30',
+      duration:'~1 h 30 min · ~95 km',
+      operator:'Trenitalia',
+      bookingRef:'Eurail Global Mobile Pass Flex',
+      platform:'Eurail',
+      seatInfo:'',
+      notes:'PLACEHOLDER — no ticket in documents. Bus or taxi from Gardone to Desenzano/Brescia, then Trenitalia to Milano Centrale. Must be in Milano area by 9 Jun (EC 14 departs 09:10). Stay in Milan likely 7–9 Jun.',
+      stops:[],
+    },
+    links:[
+      {label:'📍 Desenzano Station',url:'https://maps.google.com/?q=Desenzano+del+Garda+Station'},
+      {label:'📍 Milano Centrale',url:'https://maps.google.com/?q=Milano+Centrale+Station'},
+      {label:'🌐 Trenitalia',url:'https://www.trenitalia.com/en/services/station.html'},
+    ]
+  },
+
+  {
+    id:'train-milan-zrh',
+    type:'train',
+    sortDate:'2026-06-09T09:10:00',
+    eventDate:'2026-06-09',
+    flags:'🇮🇹 → 🇨🇭',
+    cardTitle:'Milan → Zürich',
+    cardSubtitle:'SBB/Trenitalia EC 14 · Class 1 · Coach 11 · Seats 62/61',
+    timeRange:'09:10 → 12:27',
+    ref:'DNR: XCFVTSM / PNR: SREPRN',
+    isPlaceholder:false,
+    details:{
+      from:'Milano Centrale',
+      to:'Zürich HB (Hauptbahnhof)',
+      departure:'9 Jun 2026 · 09:10',
+      arrival:'9 Jun 2026 · 12:27',
+      duration:'3 h 17 m · ~290 km',
+      operator:'SBB/Trenitalia Eurocity — Train EC 14, Class 1',
+      bookingRef:'DNR: XCFVTSM · PNR: SREPRN',
+      platform:'Eurail (via SNCB/Eurail-moove) — Order R2026406551',
+      seatInfo:'Coach 11 · Seat 062 (Pramod) · Seat 061 (Shivani) · Non-smoking · Window',
+      fare:'EUR 34.00 · Order R2026406551 (Interrail.eu, USD 40.46 × 2)',
+      visaBoundary:'IT → CH (both Schengen)',
+      notes:'CIV 1088. Global Pass tariff — complementary document (Eurail Pass) required. Carriers 1183 + 1185.',
+      stops:[],
+    },
+    links:[
+      {label:'📍 Milano Centrale',url:'https://maps.google.com/?q=Milano+Centrale+Station'},
+      {label:'🌐 Trenitalia',url:'https://www.trenitalia.com/en/services/station.html'},
+      {label:'📍 Zürich HBF',url:'https://maps.google.com/?q=Zürich+Hauptbahnhof'},
+      {label:'🌐 SBB Zurich',url:'https://www.sbb.ch/en/station-services/railway-stations/zurich.html'},
+    ]
+  },
+
+  {
+    id:'train-zrh-dusseldorf',
+    type:'train',
+    sortDate:'2026-06-09T13:59:00',
+    eventDate:'2026-06-09',
+    flags:'🇨🇭 → 🇩🇪',
+    cardTitle:'Zürich → Düsseldorf',
+    cardSubtitle:'Deutsche Bahn ICE 104 · Class 1 · Coach 11 · Seats 72/73',
+    timeRange:'13:59 → 19:32',
+    ref:'Ref: UQR0620P01',
+    isPlaceholder:false,
+    details:{
+      from:'Zürich HB (Hauptbahnhof)',
+      to:'Düsseldorf Hauptbahnhof (HBF)',
+      departure:'9 Jun 2026 · 13:59',
+      arrival:'9 Jun 2026 · 19:32',
+      duration:'5 h 33 m · ~580 km',
+      operator:'Deutsche Bahn — Train ICE 104, Class 1',
+      bookingRef:'UQR0620P01',
+      platform:'Eurail (Seat Reservation via Eurail B.V.) — Order R2026406551',
+      seatInfo:'Coach 11 · Seat 072 (Pramod) · Seat 073 (Shivani) · Non-smoking · Middle seats',
+      fare:'EUR 8.00 reservation · Order R2026406551 (Interrail.eu, USD 9.52 × 2)',
+      visaBoundary:'CH → DE (both Schengen)',
+      notes:'Reservation via Eurail B.V. Ref 804300100048. Intercity-Express. Same-day connection after EC 14 from Milano — 1 h 32 m connection time at ZRH HB.',
+      stops:[],
+    },
+    links:[
+      {label:'📍 Zürich HBF',url:'https://maps.google.com/?q=Zürich+Hauptbahnhof'},
+      {label:'📍 Düsseldorf HBF',url:'https://maps.google.com/?q=Düsseldorf+Hauptbahnhof'},
+      {label:'🌐 DB Bahn',url:'https://www.bahn.de'},
+    ]
+  },
+
+  {
+    id:'train-dus-brussels',
+    type:'train',
+    sortDate:'2026-06-15T08:10:00',
+    eventDate:'2026-06-15',
+    flags:'🇩🇪 → 🇧🇪',
+    cardTitle:'Düsseldorf → Brussels',
+    cardSubtitle:'Eurostar Plus 9426 · Coach 22 · Seats 72/75',
+    timeRange:'08:10 → 10:35',
+    ref:'PNR: Z7HCXY',
+    isPlaceholder:false,
+    details:{
+      from:'Düsseldorf Hauptbahnhof (HBF)',
+      to:'Bruxelles-Midi / Zuid',
+      departure:'15 Jun 2026 · 08:10 (be at station by 07:50)',
+      arrival:'15 Jun 2026 · 10:35',
+      duration:'2 h 25 m · ~220 km',
+      operator:'Eurostar Plus — Train 9426, CIV 0018',
+      bookingRef:'PNR: Z7HCXY',
+      platform:'Eurostar',
+      seatInfo:'Coach 22 · Seat 72 (Pramod, Ticket 246228601) · Seat 75 (Shivani, Ticket 716216865) · Eurostar Plus class',
+      fare:'Rail Pass 1st class',
+      visaBoundary:'DE → BE (both Schengen)',
+      notes:'Arrive at Düsseldorf HBF station by 07:50 local time. Coach numbers indicated next to train doors. Ticket issued 16/05/26.',
+      stops:[],
+    },
+    links:[
+      {label:'📍 Düsseldorf HBF',url:'https://maps.google.com/?q=Düsseldorf+Hauptbahnhof'},
+      {label:'🌐 DB Bahn',url:'https://www.bahn.de'},
+      {label:'📍 Brussels Midi',url:'https://maps.google.com/?q=Brussels+Midi+Zuid+Station'},
+      {label:'🌐 Belgian Rail',url:'https://www.belgiantrain.be'},
+    ]
+  },
+
+  {
+    id:'train-brussels-london',
+    type:'train',
+    sortDate:'2026-06-15T12:56:00',
+    eventDate:'2026-06-15',
+    flags:'🇧🇪 → 🇬🇧',
+    cardTitle:'Brussels → London St Pancras',
+    cardSubtitle:'Eurostar Plus 9133 · Coach 3 · Seats 77/78 · Channel Tunnel',
+    timeRange:'12:56 → 13:57',
+    ref:'PNR: JG6P4K',
+    isPlaceholder:false,
+    details:{
+      from:'Bruxelles-Midi / Zuid (Eurostar Departures)',
+      to:'London St Pancras International',
+      departure:'15 Jun 2026 · 12:56 (be at Eurostar Departures by 12:06)',
+      arrival:'15 Jun 2026 · 13:57 BST (1 h 01 m local)',
+      duration:'~2 h 20 m actual · ~370 km',
+      operator:'Eurostar Plus — Train 9133, CIV 0019',
+      bookingRef:'PNR: JG6P4K',
+      platform:'Eurostar',
+      seatInfo:'Coach 3 · Seat 77 (Pramod, Ticket 218838192) · Seat 78 (Shivani, Ticket 757657791) · Eurostar Plus class',
+      fare:'Rail Pass 1st class',
+      visaBoundary:'🛂 Entering UK · Schengen Exit via Channel Tunnel · Passport required',
+      notes:'Arrive at Eurostar Departures at Bruxelles-Midi by 12:06 local time. Ticket gates close 30 min before departure. UK–EU border checks. Passport required. Ticket issued 16/05/26.',
+      stops:[],
+    },
+    links:[
+      {label:'📍 Brussels Midi',url:'https://maps.google.com/?q=Brussels+Midi+Zuid+Station'},
+      {label:'🌐 Belgian Rail',url:'https://www.belgiantrain.be'},
+      {label:'📍 St Pancras International',url:'https://maps.google.com/?q=London+St+Pancras+International+Station'},
+      {label:'🌐 St Pancras',url:'https://www.stpancras.com'},
+    ]
+  },
+
+  // ══ HOTELS ═══════════════════════════════════════════════════════
+
+  {
+    id:'hotel-bern-savoy',
+    type:'hotel',
+    sortDate:'2026-05-19T14:30:00',
+    eventDate:'2026-05-19',
+    checkIn:'2026-05-19',
+    checkOut:'2026-05-23',
+    flags:'🇨🇭',
+    cardTitle:'Hotel Savoy Bern',
+    cardSubtitle:'Check-in 19 May → Check-out 23 May · 4 nights · 2 adults',
+    ref:'Booking: 201-2646602/1',
+    isPlaceholder:false,
+    details:{
+      address:'Neuengasse 26, Ch-3011, Berne, Switzerland',
+      stayType:'Hotel',
+      nights:'4 nights · 2 adults',
+      room:'Double Room Comfort on Room Only',
+      bookingRef:'201-2646602 / 1',
+      confirmationNo:'268195810',
+      platform:'Traverse',
+      phone:'+41 313-286666',
+      checkInTime:'—',
+      checkOutTime:'—',
+      visaZone:'Schengen',
+      notes:'Hotel confirmation: 268195810 (Sabrina Jungen, Front Office). Amendment after 11 May 2026 may not be possible.',
+    },
+    links:[
+      {label:'📍 Hotel on Map',url:'https://maps.google.com/?q=Hotel+Savoy+Bern,+Neuengasse+26,+Bern'},
+      {label:'🌐 Hotel Website',url:'https://www.hotelsavoybern.ch'},
+    ]
+  },
+
+  {
+    id:'hotel-geneva-adina',
+    type:'hotel',
+    sortDate:'2026-05-23T15:00:00',
+    eventDate:'2026-05-23',
+    checkIn:'2026-05-23',
+    checkOut:'2026-05-25',
+    flags:'🇨🇭',
+    cardTitle:'Adina Apartment Hotel Geneva',
+    cardSubtitle:'Check-in 23 May → Check-out 25 May · 2 nights · 2 adults',
+    ref:'Booking: 201-2646868/1',
+    isPlaceholder:false,
+    details:{
+      address:'Route De Meyrin 125, 1219 Chatelaine, Vernier, Geneva, Switzerland',
+      stayType:'Apartment Hotel',
+      nights:'2 nights · 2 adults',
+      room:'Apartment, 1 Bedroom (1 King Bed) on Room Only',
+      bookingRef:'201-2646868 / 1',
+      platform:'Traverse',
+      phone:'+41 (0)11 11111111',
+      checkInTime:'From 15:00',
+      checkOutTime:'By 11:00',
+      visaZone:'Schengen',
+      notes:'Non-refundable. City tax CHF 4.25 per person/night payable at hotel. Mandatory Tax (Pay at Hotel): CHF 17.00.',
+    },
+    links:[
+      {label:'📍 Hotel on Map',url:'https://maps.google.com/?q=Adina+Apartment+Hotel+Geneva,+Rue+de+Berne,+Geneva'},
+      {label:'🌐 Hotel Website',url:'https://www.adinahotels.com/en/hotels/geneva/'},
+    ]
+  },
+
+  {
+    id:'hotel-sachseln-kreuz',
+    type:'hotel',
+    sortDate:'2026-05-25T15:00:00',
+    eventDate:'2026-05-25',
+    checkIn:'2026-05-25',
+    checkOut:'2026-05-27',
+    flags:'🇨🇭',
+    cardTitle:'Hotel Kreuz Sachseln',
+    cardSubtitle:'Check-in 25 May → Check-out 27 May · 2 nights · 2 adults',
+    ref:'Booking: 201-2646107/1 · Conf: TCHTVADM-1',
+    isPlaceholder:false,
+    details:{
+      address:'Bruder-Klausen-Weg 1, 6072 Sachseln, Lucerne, Switzerland',
+      stayType:'Hotel',
+      nights:'2 nights · 2 adults',
+      room:'Double Room - Comfort on Room Only',
+      bookingRef:'201-2646107 / 1',
+      confirmationNo:'TCHTVADM-1',
+      platform:'Traverse',
+      phone:'+41 (0)41 6605300',
+      checkInTime:'—',
+      checkOutTime:'—',
+      visaZone:'Schengen',
+      notes:'No front desk — check-in instructions emailed within 24h before arrival. Private entrance access. Virtual front desk. City tax payable at hotel.',
+    },
+    links:[
+      {label:'📍 Hotel on Map',url:'https://maps.google.com/?q=Hotel+Kreuz+Sachseln,+Brünigstrasse+58,+Sachseln'},
+      {label:'🌐 Hotel Website',url:'https://www.hotel-kreuz-sachseln.ch'},
+    ]
+  },
+
+  {
+    id:'hotel-innsbruck-adlers',
+    type:'hotel',
+    sortDate:'2026-05-27T14:30:00',
+    eventDate:'2026-05-27',
+    checkIn:'2026-05-27',
+    checkOut:'2026-05-29',
+    flags:'🇦🇹',
+    cardTitle:'Adlers Hotel Innsbruck',
+    cardSubtitle:'Check-in 27 May → Check-out 29 May · 2 nights · 2 adults',
+    ref:'Booking: 201-2647483/1 · Conf: ad178148',
+    isPlaceholder:false,
+    details:{
+      address:'Bruneckerstrasse 1, 6020 Innsbruck, Austria',
+      stayType:'Hotel',
+      nights:'2 nights · 2 adults',
+      room:'Classic Twin Or Double on Room Only',
+      bookingRef:'201-2647483 / 1',
+      confirmationNo:'ad178148',
+      platform:'Traverse',
+      phone:'+43 (0)5 12587109',
+      checkInTime:'—',
+      checkOutTime:'—',
+      visaZone:'Schengen',
+      notes:'Hotel confirmation: ad178148 (Taisa Musostova). City tax payable at hotel. No-show & early departures: 100% charges apply. Amendment after 12 May 2026 may not be possible.',
+    },
+    links:[
+      {label:'📍 Hotel on Map',url:'https://maps.google.com/?q=Adlers+Hotel+Innsbruck,+Wilhelm-Greil-Straße+2'},
+      {label:'🌐 Hotel Website',url:'https://www.adlers.at'},
+    ]
+  },
+
+  {
+    id:'hotel-seefeld-bb',
+    type:'hotel',
+    sortDate:'2026-05-29T15:00:00',
+    eventDate:'2026-05-29',
+    checkIn:'2026-05-29',
+    checkOut:'2026-06-01',
+    flags:'🇦🇹',
+    cardTitle:'Seefelds Bed & Breakfast',
+    cardSubtitle:'Check-in 29 May → Check-out 1 Jun · 3 nights · Breakfast included',
+    ref:'Booking: 201-2647726/1',
+    isPlaceholder:false,
+    details:{
+      address:'Bahnhofstrasse 124, 6100 Seefeld in Tirol, Austria',
+      stayType:'Bed & Breakfast',
+      nights:'3 nights · 2 adults',
+      room:'Superior Double Room (1 Queen Bed) with Breakfast',
+      bookingRef:'201-2647726 / 1',
+      platform:'Traverse',
+      phone:'+43 52122655',
+      checkInTime:'15:00–22:00 (no after-hours)',
+      checkOutTime:'By 11:00',
+      visaZone:'Schengen',
+      notes:'Non-refundable. Check-in 3:00 PM–10:00 PM (no after-hours check-in). Deposit: EUR 200.00 per stay payable at hotel. City tax EUR 5.00 per person/night. Mandatory Tax: EUR 30.00. Breakfast included.',
+    },
+    links:[
+      {label:'📍 Seefeld in Tirol',url:'https://maps.google.com/?q=Seefeld+in+Tirol+Austria'},
+    ]
+  },
+
+  {
+    id:'hotel-bolzano-eisenhut',
+    type:'hotel',
+    sortDate:'2026-06-01T15:00:00',
+    eventDate:'2026-06-01',
+    checkIn:'2026-06-01',
+    checkOut:'2026-06-04',
+    flags:'🇮🇹',
+    cardTitle:'Eisenhut Boutique Hotel · Bolzano',
+    cardSubtitle:'Check-in 1 Jun → Check-out 4 Jun · 3 nights · Breakfast included',
+    ref:'Booking: 201-2648367/1',
+    isPlaceholder:false,
+    details:{
+      address:'Bindergasse 21, 39100 Bolzano, Italy',
+      stayType:'Boutique Hotel',
+      nights:'3 nights · 2 adults',
+      room:'Klassik - King with Breakfast',
+      bookingRef:'201-2648367 / 1',
+      platform:'Traverse',
+      phone:'—',
+      checkInTime:'15:00–22:00',
+      checkOutTime:'By 11:00',
+      visaZone:'Schengen',
+      notes:'Check-in 15:00–22:00. Must contact hotel with arrival time to receive special check-in instructions. Includes: breakfast, parking, bike rental, welcome drink, coffee & tea, express check-in, free WiFi, drinking water, fitness center access.',
+    },
+    links:[
+      {label:'📍 Hotel on Map',url:'https://maps.google.com/?q=Hotel+Eisenhut+Boutique+Bolzano,+Via+della+Rena+6'},
+      {label:'🌐 Hotel Website',url:'https://www.eisenhut.it'},
+    ]
+  },
+
+  {
+    id:'hotel-gardone-savoy',
+    type:'hotel',
+    sortDate:'2026-06-04T14:00:00',
+    eventDate:'2026-06-04',
+    checkIn:'2026-06-04',
+    checkOut:'2026-06-07',
+    flags:'🇮🇹',
+    cardTitle:'Hotel Savoy Palace · Gardone Riviera',
+    cardSubtitle:'Check-in 4 Jun → Check-out 7 Jun · 3 nights · Lake Garda',
+    ref:'Booking: 201-2648157/1',
+    isPlaceholder:false,
+    details:{
+      address:'Via Zanardelli 2/4, Gardone Riviera, 25083 Brescia, Italy',
+      stayType:'Hotel',
+      nights:'3 nights · 2 adults',
+      room:'Classic Room (1 Double Bed) with Breakfast',
+      bookingRef:'201-2648157 / 1',
+      platform:'Traverse',
+      phone:'+39 0365 290588',
+      checkInTime:'From 14:00 (until midnight)',
+      checkOutTime:'By 11:00',
+      visaZone:'Schengen',
+      notes:'Non-refundable. Beach nearby. City tax EUR 2.00 per person/night (Apr–Oct season). Mandatory Fee (Pay at Hotel): EUR 12.00. Breakfast included. Pool access 8 AM–7 PM.',
+    },
+    links:[
+      {label:'📍 Hotel on Map',url:'https://maps.google.com/?q=Hotel+Savoy+Palace+Gardone+Riviera'},
+      {label:'🌐 Hotel Website',url:'https://www.savoypalace.it'},
+    ]
+  },
+
+  {
+    id:'hotel-dusseldorf',
+    type:'hotel',
+    sortDate:'2026-06-09T20:00:00',
+    eventDate:'2026-06-09',
+    checkIn:'2026-06-09',
+    checkOut:'2026-06-15',
+    flags:'🇩🇪',
+    cardTitle:'Düsseldorf Hotel',
+    cardSubtitle:'Check-in 9 Jun → Check-out 15 Jun · 6 nights',
+    ref:'Booking: TBD',
+    isPlaceholder:true,
+    details:{
+      address:'Düsseldorf, Germany',
+      stayType:'Hotel',
+      nights:'6 nights · 2 adults',
+      room:'TBD',
+      bookingRef:'Placeholder — update with real details',
+      platform:'—',
+      phone:'—',
+      checkInTime:'—',
+      checkOutTime:'—',
+      visaZone:'Schengen',
+      notes:'Placeholder — update with real booking details. Arriving 9 Jun (~19:32 from ZRH via ICE). Departing 15 Jun (Eurostar 08:10 to Brussels).',
+    },
+    links:[
+      {label:'📍 Düsseldorf City',url:'https://maps.google.com/?q=Holiday+Inn+Düsseldorf+City+Centre'},
+      {label:'🌐 Holiday Inn DUS',url:'https://www.ihg.com/holidayinn/hotels/us/en/dusseldorf/duscc/hoteldetail'},
+    ]
+  },
+
+  {
+    id:'hotel-london',
+    type:'hotel',
+    sortDate:'2026-06-15T14:00:00',
+    eventDate:'2026-06-15',
+    checkIn:'2026-06-15',
+    checkOut:'2026-07-15',
+    flags:'🇬🇧',
+    cardTitle:'London Base Hotel',
+    cardSubtitle:'Check-in 15 Jun → Check-out 15 Jul · 30 nights',
+    ref:'Booking: TBD',
+    isPlaceholder:true,
+    details:{
+      address:'London, United Kingdom',
+      stayType:'Hotel',
+      nights:'30 nights · 2 adults',
+      room:'TBD',
+      bookingRef:'Placeholder — update with real details',
+      platform:'—',
+      phone:'—',
+      checkInTime:'—',
+      checkOutTime:'—',
+      visaZone:'UK',
+      notes:'Placeholder — update with real booking details. Arriving 15 Jun (Eurostar 9133, London St Pancras 13:57). Departing 15 Jul (LH 2485 from LHR 07:25).',
+    },
+    links:[
+      {label:'📍 London',url:'https://maps.google.com/?q=London+United+Kingdom'},
+    ]
+  },
+
+  // ══ MISC / SPECIAL BOOKINGS ═══════════════════════════════════════
+
+  {
+    id:'misc-eurail-pass',
+    type:'misc',
+    sortDate:'2026-05-15T00:00:00',
+    eventDate:'2026-05-15',
+    flags:'🇨🇭🇦🇹🇮🇹🇩🇪🇫🇷',
+    cardTitle:'Eurail Global Mobile Pass Flex',
+    cardSubtitle:'10 Days within 2 Months · 2 Adults · Valid 15 May 2026 – 14 Apr 2027',
+    ref:'10 Flex Days',
+    isPlaceholder:false,
+    details:{
+      type:'Rail Pass — Flexi Pass (Mobile/Digital)',
+      validFrom:'15 May 2026',
+      validUntil:'14 Apr 2027',
+      days:'10 Days / Within 2 Months of first activation',
+      pax:'2 Adults · Indian Nationality',
+      networks:'Swiss Rail (SBB), ÖBB, Trenitalia, Deutsche Bahn, SNCF, most European networks',
+      covers:'Switzerland · Austria · Italy · Germany legs',
+      notes:'Mobile/digital pass — activate a travel day each time you board a train. 10 flexible days must be used within 2 months of first activation.',
+    },
+    links:[]
+  },
+
+];
+
+// ─────────────────────────────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────────────────────────────
+let currentTab = 'today';
+let typeFilter = 'all';
+let sortAsc = true;
+
+// ─────────────────────────────────────────────────────────────────
+// HELPERS
+// ─────────────────────────────────────────────────────────────────
+function today0() {
+  const d = new Date();
+  d.setHours(0,0,0,0);
+  return d;
+}
+
+function parseDate(s) {
+  const d = new Date(s);
+  d.setHours(0,0,0,0);
+  return d;
+}
+
+function formatDateShort(s) {
+  const d = new Date(s + 'T00:00:00');
+  return d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'2-digit'});
+}
+
+function formatDateFull(s) {
+  const d = new Date(s + 'T00:00:00');
+  return d.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'long',year:'numeric'});
+}
+
+function isEventToday(ev) {
+  const t = today0();
+  const eDate = parseDate(ev.eventDate);
+  if (ev.type === 'hotel') {
+    const co = parseDate(ev.checkOut);
+    return eDate <= t && t < co;
+  }
+  if (ev.type === 'misc') {
+    const vf = parseDate(ev.eventDate);
+    const vu = parseDate('2027-04-14');
+    return vf <= t && t <= vu;
+  }
+  return eDate.getTime() === t.getTime();
+}
+
+function isEventUpcoming(ev) {
+  const t = today0();
+  const eDate = parseDate(ev.eventDate);
+  if (ev.type === 'hotel') {
+    const co = parseDate(ev.checkOut);
+    return co > t;
+  }
+  if (ev.type === 'misc') {
+    return parseDate('2027-04-14') >= t;
+  }
+  return eDate >= t;
+}
+
+function matchesSearch(ev, q) {
+  if (!q) return true;
+  const haystack = [
+    ev.cardTitle, ev.cardSubtitle, ev.ref, ev.flags,
+    ev.details ? JSON.stringify(ev.details) : ''
+  ].join(' ').toLowerCase();
+  return haystack.includes(q.toLowerCase());
+}
+
+function typeIcon(t) {
+  return {flight:'✈️', train:'🚂', hotel:'🏨', misc:'🎫'}[t] || '📋';
+}
+
+function typeBadge(t) {
+  return {flight:'FLIGHT', train:'TRAIN', hotel:'HOTEL/STAY', misc:'RAIL PASS'}[t] || 'EVENT';
+}
+
+// ─────────────────────────────────────────────────────────────────
+// RENDER
+// ─────────────────────────────────────────────────────────────────
+function buildDetailRows(ev) {
+  const d = ev.details;
+  if (!d) return '';
+  let rows = '';
+
+  if (ev.type === 'flight') {
+    rows += detailGrid([
+      ['From',d.from],['To',d.to],
+      ['Departure',d.departure],['Arrival',d.arrival],
+      ['Duration',d.duration],['Operator',d.operator],
+    ]);
+    rows += detailGrid([
+      ['Booking Ref',d.bookingRef],['Platform',d.platform],
+    ]);
+    if (d.seatInfo) rows += detailFull('Seat / Ticket Info', d.seatInfo.replace(/\n/g,'<br>'));
+    if (d.baggage) rows += detailFull('Baggage', d.baggage);
+    if (d.fare) rows += detailFull('Fare', d.fare);
+    if (d.stops && d.stops.length) {
+      rows += '<div class="detail-section"><div class="detail-section-title">Stopover</div>';
+      d.stops.forEach(s => {
+        rows += `<div class="stop-item"><span class="stop-icon">✈️</span><div class="stop-text"><div class="stop-name">${s.city} — ${s.terminal}</div>Arrives ${s.arrives} · Departs ${s.departs} · Layover ${s.layover}</div></div>`;
+      });
+      rows += '</div>';
+    }
+    if (d.visaBoundary) rows += `<div class="visa-chip">🛂 ${d.visaBoundary}</div>`;
+
+  } else if (ev.type === 'train') {
+    rows += detailGrid([
+      ['From',d.from],['To',d.to],
+      ['Departure',d.departure],['Arrival',d.arrival],
+      ['Duration / Distance',d.duration],['Operator',d.operator],
+    ]);
+    rows += detailGrid([
+      ['Booking / DNR',d.bookingRef],['Platform',d.platform],
+    ]);
+    if (d.seatInfo) rows += detailFull('Seat Info', d.seatInfo);
+    if (d.fare) rows += detailFull('Fare / Reservation', d.fare);
+    if (d.visaBoundary) rows += `<div class="visa-chip">🛂 ${d.visaBoundary}</div>`;
+
+  } else if (ev.type === 'hotel') {
+    const nights = d.nights || '—';
+    rows += detailGrid([
+      ['Address',d.address],['Type',d.stayType],
+      ['Check-in',d.checkInTime||'—'],['Check-out',d.checkOutTime||'—'],
+      ['Nights',nights],['Room',d.room||'—'],
+    ]);
+    rows += detailGrid([
+      ['Booking Ref',d.bookingRef],['Confirmation',d.confirmationNo||'—'],
+      ['Platform',d.platform||'—'],['Phone',d.phone||'—'],
+      ['Visa Zone',d.visaZone||'—'],
+    ]);
+
+  } else if (ev.type === 'misc') {
+    rows += detailGrid([
+      ['Type',d.type||'—'],['Valid From',d.validFrom||'—'],
+      ['Valid Until',d.validUntil||'—'],['Days',d.days||'—'],
+      ['Passengers',d.pax||'—'],['Networks Covered',d.networks||'—'],
+      ['Covers',d.covers||'—'],
+    ]);
+  }
+
+  if (d.notes) rows += `<div class="notes-box">📝 ${d.notes}</div>`;
+  return rows;
+}
+
+function detailGrid(pairs) {
+  let html = '<div class="detail-section"><div class="detail-grid">';
+  pairs.forEach(([label,val]) => {
+    if (!val || val === '—') return;
+    html += `<div class="detail-item"><div class="detail-label">${label}</div><div class="detail-value">${val}</div></div>`;
+  });
+  html += '</div></div>';
+  return html;
+}
+
+function detailFull(label, val) {
+  return `<div class="detail-section"><div class="detail-item full-width"><div class="detail-label">${label}</div><div class="detail-value">${val}</div></div></div>`;
+}
+
+function renderCard(ev) {
+  const t = today0();
+  const isNow = isEventToday(ev);
+  const todayBadge = isNow ? '<span class="today-badge">● TODAY</span>' : '';
+  const placeholderNotice = ev.isPlaceholder
+    ? '<div class="placeholder-notice">⚠️ Placeholder — booking details not yet confirmed</div>' : '';
+
+  const linksHtml = ev.links && ev.links.length
+    ? `<div class="links-section">${ev.links.map(l =>
+        `<a href="${l.url}" target="_blank" rel="noopener" class="link-btn">${l.label}</a>`
+      ).join('')}</div>` : '';
+
+  const keyItems = [];
+  if (ev.timeRange) keyItems.push(`⏱ ${ev.timeRange}`);
+  if (ev.ref) keyItems.push(ev.ref);
+
+  return `
+  <div class="card ${ev.type}" id="card-${ev.id}">
+    <div class="card-header" onclick="toggleCard('${ev.id}')">
+      <div class="card-icon">${typeIcon(ev.type)}</div>
+      <div class="card-main">
+        <div class="card-type-row">
+          <span class="card-badge">${typeBadge(ev.type)}</span>
+          <span class="card-flags">${ev.flags}</span>
+          ${todayBadge}
+          <span class="card-date-badge">${formatDateShort(ev.eventDate)}</span>
+        </div>
+        <div class="card-title">${ev.cardTitle}</div>
+        <div class="card-subtitle">${ev.cardSubtitle}</div>
+        <div class="card-key-info">
+          ${keyItems.map(k=>`<span class="card-key-item">${k}</span>`).join('')}
+        </div>
+      </div>
+      <div class="card-toggle">▼</div>
+    </div>
+    <div class="card-body">
+      <div class="card-body-inner">
+        ${placeholderNotice}
+        ${buildDetailRows(ev)}
+        ${linksHtml}
+      </div>
+    </div>
+  </div>`;
+}
+
+function toggleCard(id) {
+  const card = document.getElementById('card-' + id);
+  if (card) card.classList.toggle('expanded');
+}
+
+// ─────────────────────────────────────────────────────────────────
+// FILTER + RENDER PIPELINE
+// ─────────────────────────────────────────────────────────────────
+function applyFilters() {
+  const q = document.getElementById('searchInput').value.trim();
+  const wrap = document.getElementById('cardsWrap');
+  const noRes = document.getElementById('noResults');
+
+  let filtered = EVENTS.filter(ev => {
+    if (currentTab === 'today' && !isEventToday(ev)) return false;
+    if (currentTab === 'upcoming' && !isEventUpcoming(ev)) return false;
+    if (typeFilter !== 'all' && ev.type !== typeFilter) return false;
+    if (!matchesSearch(ev, q)) return false;
+    return true;
+  });
+
+  filtered.sort((a,b) => {
+    const da = new Date(a.sortDate), db = new Date(b.sortDate);
+    return sortAsc ? da-db : db-da;
+  });
+
+  if (filtered.length === 0) {
+    wrap.innerHTML = '';
+    noRes.style.display = 'block';
+    return;
+  }
+
+  noRes.style.display = 'none';
+
+  // Group by date
+  const groups = {};
+  filtered.forEach(ev => {
+    if (!groups[ev.eventDate]) groups[ev.eventDate] = [];
+    groups[ev.eventDate].push(ev);
+  });
+
+  const dates = Object.keys(groups);
+  if (!sortAsc) dates.reverse();
+
+  let html = '';
+  dates.forEach(date => {
+    html += `<div class="date-group-header">${formatDateFull(date)}</div>`;
+    groups[date].forEach(ev => { html += renderCard(ev); });
+  });
+
+  wrap.innerHTML = html;
+}
+
+function updateCounts() {
+  const all = EVENTS.length;
+  const today = EVENTS.filter(isEventToday).length;
+  const upcoming = EVENTS.filter(isEventUpcoming).length;
+  document.getElementById('count-today').textContent = today;
+  document.getElementById('count-upcoming').textContent = upcoming;
+  document.getElementById('count-all').textContent = all;
+}
+
+// ─────────────────────────────────────────────────────────────────
+// TAB + FILTER CONTROLS
+// ─────────────────────────────────────────────────────────────────
+function setTab(tab) {
+  currentTab = tab;
+  ['today','upcoming','all'].forEach(t => {
+    document.getElementById('tab-'+t).classList.toggle('active', t===tab);
+  });
+  applyFilters();
+}
+
+function setTypeFilter(type) {
+  typeFilter = type;
+  ['all','flight','train','hotel','misc'].forEach(t => {
+    const el = document.getElementById('chip-'+t);
+    el.className = 'chip' + (t===type ? ' active-'+t : '');
+  });
+  applyFilters();
+}
+
+function toggleSort() {
+  sortAsc = !sortAsc;
+  document.getElementById('sortLabel').textContent = sortAsc ? 'Date ↑' : 'Date ↓';
+  document.getElementById('sortBtn').classList.toggle('active', !sortAsc);
+  applyFilters();
+}
+
+// ─────────────────────────────────────────────────────────────────
+// PROGRESS BAR
+// ─────────────────────────────────────────────────────────────────
+function updateProgress() {
+  const start = new Date('2026-05-19');
+  const end   = new Date('2026-07-15');
+  const now   = new Date();
+  const total = end - start;
+  const elapsed = now - start;
+  const pct = Math.min(100, Math.max(0, (elapsed/total)*100));
+  document.getElementById('progressFill').style.width = pct.toFixed(1) + '%';
+
+  if (now < start) {
+    const days = Math.ceil((start-now)/(1000*60*60*24));
+    document.getElementById('progressLabel').textContent = `Trip starts in ${days} day${days!==1?'s':''} · 19 May 2026`;
+  } else if (now > end) {
+    document.getElementById('progressLabel').textContent = 'Trip completed · 15 Jul 2026';
+  } else {
+    const dayIn = Math.floor((now-start)/(1000*60*60*24)) + 1;
+    const totalDays = Math.ceil(total/(1000*60*60*24));
+    document.getElementById('progressLabel').textContent = `Day ${dayIn} of ${totalDays} · ${pct.toFixed(0)}% complete`;
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────
+// SMART DEFAULT TAB
+// ─────────────────────────────────────────────────────────────────
+function smartDefaultTab() {
+  const now = today0();
+  const tripStart = parseDate('2026-05-19');
+  const tripEnd = parseDate('2026-07-15');
+  if (now >= tripStart && now <= tripEnd) {
+    setTab('today');
+  } else if (now < tripStart) {
+    setTab('upcoming');
+  } else {
+    setTab('all');
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────────────────────────────
+(function init() {
+  updateProgress();
+  updateCounts();
+  smartDefaultTab();
+})();
+</script>
+</body>
+</html>
